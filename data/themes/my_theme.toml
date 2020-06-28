@@ -1,0 +1,21 @@
+# Theme metadata
+name = "my_theme"
+
+# Is theme light or dark?
+light = true
+
+# color scheme 
+# {"Flirt":"ad037e","Ultra Red":"ef798a","Dark Purple":"420039","Silver Sand":"c2c1c2","Pastel Pink":"efa9ae"}
+
+# Primary
+primary = "#AD037E"
+
+# Menu
+menu_primary = "#AD037E"
+menu_text = "#fff"
+menu_text_active = "#efa9ae"
+menu_title = "#fff"
+
+# Home sections
+home_section_odd = "#fff"
+home_section_even = "#fff"

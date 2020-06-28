@@ -1,0 +1,178 @@
+---
+title: "My useR!2020 tutorial on ggplot2"
+date: 2020-01-24
+categories: rstats, help
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Today, the <a href="https://user2020.r-project.org/">useR! 2020</a> committee announced the July 7th tutorials on <a href="https://twitter.com/useR2020stl/status/1220451345360179200">twitter</a>. I am so honored and grateful to be one of the selected tutorial leaders! What an amazing group to be a part of!</p>
+<p>I will be giving the tutorial, <em>Creating Beautiful Data Visualizations in R: a <code>ggplot2</code> Crash course.</em> The other tutorials are:</p>
+<ul>
+<li>Morning session:
+<ul>
+<li><em>First steps in spatial data handling and visualization</em> by <a href="https://github.com/statnmap">S. Rochette</a>, <a href="https://dscott.netlify.com/">D. Scott</a>, and <a href="https://nowosad.github.io/">J. Nowosad</a></li>
+<li><em>Predictive modeling with text using tidy data principles</em> by <a href="https://juliasilge.com/">J. Silge</a> and E. Hansen</li>
+<li><em>So, you want to learn Python? An introduction to Python for the R lover</em> by <a href="http://www.shanellis.com/">S. Ellis</a></li>
+<li><em>Application of Gaussian graphical models to metabolomics</em> by <a href="https://www.feinberg.northwestern.edu/faculty-profiles/az/profile.html?xid=16163">D. Scholtens</a> and <a href="https://www.umass.edu/sphhs/person/faculty/raji-balasubramanian">R. Balasubramanian</a></li>
+<li><em>Periscope and CanvasXpress 0 Creating and enterprise-grade big-data visualization application in a day</em> by <a href="https://github.com/cb4ds">C. Brett</a></li>
+<li><em>Seamless R and C++ integration with Rcpp</em> by <a href="http://dirk.eddelbuettel.com/">D. Eddelbuettel</a></li>
+<li><em>Create and share reproducible code with R Markdown and workflowr</em> by <a href="https://jdblischak.com/">J. Blischak</a></li>
+<li><em>Causal inference in R</em> by <a href="https://www.lucymcgowan.com/">L. D’Agostino McGowan</a></li>
+<li><em>Reproducible computation at scale with drake: hands-on practice with a machine learning project</em> by <a href="https://wlandau.github.io/">W. Landau</a></li>
+</ul></li>
+<li>Afternoon session:
+<ul>
+<li><em>How green was my valley - Spatial analytics with PostgreSQL, PostGIS, R, and PL/R</em> by <a href="https://joeconway.com/">J. Conway</a></li>
+<li><em>Building interactive web application with Dash for R</em> by <a href="https://github.com/rpkyle">R. Kyle</a></li>
+<li><em>Easy Larger-than-Ram data manipulation with disk.frame</em> by <a href="https://github.com/xiaodaigh">ZJ Dai</a></li>
+<li><em>R Markdown recipes</em> by <a href="https://yihui.org/en/">Y. Xie</a></li>
+<li><em>Getting the most out of Git</em> by <a href="https://github.com/csgillespie">C. Gillespie</a> and <a href="https://trianglegirl.rbind.io/">R. Davies</a></li>
+<li><em>End-to-end maching learning with Metaflow: Going from protoype to production with Netflix’s open source project for reproducible data science</em> by <a href="https://github.com/savingoyal">S. Goyal</a></li>
+<li><em>Package development</em> by <a href="https://github.com/jimhester">J. Hester</a> and <a href="http://hadley.nz/">H. Wickham</a></li>
+<li><em>What they forgot to teach you about teaching R</em> by <a href="http://www2.stat.duke.edu/~mc301/">M. Cetinkaya-Rundel</a></li>
+</ul></li>
+</ul>
+<p>Hopefully I made the right guess at the tutorial leaders, and I apologize to those I could not find easily!</p>
+<p>The rest of this post is my tutorial proposal that I submitted to the committee. I hope you’ll attend!</p>
+<hr />
+<div id="title" class="section level2">
+<h2>Title: <!--10-20 words, describing succinctly the topic of the tutorial.--></h2>
+<div id="creating-beautiful-data-visualizations-in-r-a-ggplot2-crash-course" class="section level3">
+<h3>Creating Beautiful Data Visualizations in R: a <code>ggplot2</code> Crash Course</h3>
+</div>
+</div>
+<div id="audience" class="section level2">
+<h2>Audience: <!--50-100 words, describing the expected background (subject matter and R experience) that an attendee should have in order to have a meaningful learning experience.--></h2>
+<p>Users of any subject matter background who are interested in data visualization with R are welcome. New R users (less than 1 year of continual experience) will get the most out of this course. Some basic knowledge, such as understanding of different R data types &amp; structures (character, data frame, etc.) and authoring simple functions &amp; loops, is required. The course, however, is not just for beginners. More advanced R users who have little to no experience with <code>ggplot2</code> and other packages in the <code>tidyverse</code> will learn many new tools for data visualization in R.</p>
+</div>
+<div id="instructor-background" class="section level2">
+<h2>Instructor background: <!--~100 words, describing the instructor’s domains of expertise, experience teaching courses/workshops/tutorials using R, and how the instructor’s background has prepared them to teach the proposed tutorial. Provide the URL to your LinkedIn, Github, or any other site where details of your academic/professional background that are relevant to the proposed tutorial are available.--></h2>
+<p>Dr. Tyner has been using <code>ggplot2</code> since version 0.9.2 (2012). She co-authored and maintains the <code>ggplot2</code> extension package <code>geomnet</code>, and has taught <code>ggplot2</code> to undergraduate students, graduate students, and professionals. Her material for undergraduate students can be found at <a href="https://csafe-isu.github.io/reu18/slides/">csafe-isu.github.io/reu18/slides</a>, and a list of all workshops taught is available in her <a href="https://sctyner.github.io/static/resume/tyner-cv-pd.html">CV</a>. Dr. Tyner also has expertise in the theory of data visualization, acquired through her dissertation research and as a part of the statistical graphics working group at Iowa State University. She has written about her <code>ggplot2</code> work in <a href="https://journal.r-project.org/archive/2017/RJ-2017-023/index.html">The R Journal</a> and on her <a href="https://sctyner.github.io/blog.html">blog</a>.</p>
+</div>
+<div id="domain" class="section level2">
+<h2>Domain: <!--10-20 words, describing the subject areas (e.g. Social Sciences, Neuroscience, Geo-spatial statistics, etc.) to which the concepts and examples presented belong. This description will allow potential attendees determine whether the tutorial would be of interest to them.--></h2>
+<p>Most examples will use publicly available data from the U.S. Bureau of Labor Statistics, including time series and map data, but no economics knowledge is required.</p>
+</div>
+<div id="points-of-appeal" class="section level2">
+<h2>Points of appeal: <!--~75 words, describing what makes the proposed tutorial appealing to either audience from a broad range of backgrounds. If the tutorial content draws on examples from multiple fields/disciplines, the fields are identified and the tutorial is described in a way that is appealing to audience from those and related disciplines.--></h2>
+<p>Learning <code>ggplot2</code> brings joy and <a href="https://twitter.com/JennyBryan/status/1176918920491675648?s=20">“aha moments”</a> to new R users, keeping them more engaged and eager to grow their R skills. Newer R users will be and feel more empowered with data visualization skills. In addition to experiencing joy in creating beautiful graphics, advanced R users will learn to take advantage of <code>ggplot2</code>’s <a href="https://ggplot2-book.org/introduction.html#welcome-to-ggplot2">elegant defaults</a>, saving time on manual plotting tasks like drawing legends. Thus, time and energy can be spent on advanced analyses, not fights with plotting commands.</p>
+</div>
+<div id="learning-objectives" class="section level2">
+<h2>Learning objectives: <!--100 – 200 words, describing the specific concepts and skills the audience can expect to have learned by attending the tutorial. Be sure to specify each learning objective succinctly. A well-drafted proposal would probably have 3-5 well-stated learning objectives.--></h2>
+<p>Upon completion of this tutorial, the participants will be able to:</p>
+<ol style="list-style-type: decimal">
+<li>identify the appropriate plot types and corresponding <code>ggplot2</code> <code>geom</code>s to consider when visualizing their data;
+<ul>
+<li>Participants will match variable types (categorical, continuous, etc.) to the best visualizations (boxplots, scatterplots, etc.).</li>
+</ul></li>
+<li>implement the <code>ggplot2</code> grammar of graphics by using <code>ggplot()</code> and building up plots with the <code>+</code> operator;
+<ul>
+<li>Participants will add <code>geom</code>s, <code>stat</code>s, <code>facet_*</code>s, and <code>theme</code> objects together to create beautiful graphics.</li>
+</ul></li>
+<li>iterate through multiple visualizations of their data by changing the aesthetic mappings, geometries, and other graph properties;
+<ul>
+<li>Participants will practice interchanging geometries and aesthetic mappings to communicate the data in different ways to find effective visualizations.</li>
+</ul></li>
+<li>incorporate custom elements (colors, fonts, etc.) into their visualizations by adjusting <code>ggplot2</code> theme elements;
+<ul>
+<li>Participants will be able to customize their graphs for appearance in journals, corporate reports, etc. with specific requirements.</li>
+</ul></li>
+<li>investigate the world of <code>ggplot2</code> independently to expand upon the skills learned in the course.
+<ul>
+<li>Participants will acquire “prosthetic knowledge,” or the ability to learn more about <code>ggplot2</code> and data visualization in R using the Internet.</li>
+</ul></li>
+</ol>
+</div>
+<div id="computing-requirements" class="section level2">
+<h2>Computing requirements: <!--~50 words, describing the minimum hardware configuration and software attendees should bring to the tutorial to benefit from the hands-on exercises given during the tutorial.--></h2>
+<p>Participants should have a laptop with access to the internet. Having RStudio on the laptop is recommended, but if this is not possible the student may use the RStudio Cloud workspace. Students not using the RStudio Cloud should have the <code>tidyverse</code> suite of packages and the <code>plotly</code> package installed. Or, for the minimalist student, <code>ggplot2</code>, <code>dplyr</code>, <code>tidyr</code>, and <code>plotly</code> will be sufficient for the bulk of the material.</p>
+</div>
+<div id="teaching-assistant" class="section level2">
+<h2>Teaching assistant: <!--will you be able to identify one-two individuals who can serve as teaching assistants? Will you need the conference committee to identify volunteers who can serve as teaching assistants? What subject matter expertise should such an individual have to help with any difficulties that the attendees might face in running the code examples being demonstrated?--></h2>
+<p>I have a great network of possible TAs for this course in current and former Iowa State University statistics Ph.D. students. I am confident I will be able to recruit two people to participate as TAs.</p>
+</div>
+<div id="lesson-plan" class="section level2">
+<h2>Lesson plan: <!-- ~150 words, describing via a bulleted list, a sketch of the sequence of activities (theory/domain explanation, demonstration of code, hands-on work time, formal/informal Q+A, etc.) that the instructor expects to follow for delivering the learning experience to attendees.--></h2>
+<p>Session 1: <code>ggplot2</code> basics (90 minutes)</p>
+<ul>
+<li>Introduction to <code>ggplot2</code>’s grammar of graphics (20 minutes)
+<ul>
+<li>Theory: grammar of graphics</li>
+<li>Optimal data format</li>
+<li>The basics of <code>geom_*</code>s,<code>stat_*</code>s, &amp; <code>aes()</code></li>
+</ul></li>
+<li>One-variable visualization (10 minutes)
+<ul>
+<li>Bar charts</li>
+<li>Histograms, density estimates</li>
+</ul></li>
+<li>Hands-on (5 minutes)</li>
+<li>Two-variable visualization (20 minutes)
+<ul>
+<li>Two categorical variables: <code>geom_count</code>, etc.</li>
+<li>Two numeric variables: scatterplots, etc.</li>
+<li>One categorical, one numeric: boxplots, etc.</li>
+</ul></li>
+<li>Hands-on (5 minutes)</li>
+<li>Three or more variable visualization (20 minutes)
+<ul>
+<li>Augmenting one- and two-variable visualisation with color, and other aesthetic mappings</li>
+<li>Grouping</li>
+<li>Faceting</li>
+<li>Maps</li>
+</ul></li>
+<li>Hands-on (10 minutes)</li>
+</ul>
+<p>Break (30 minutes)</p>
+<p>Session 2: Advanced customization (90 minutes)</p>
+<ul>
+<li>Combining layers (20 minutes)
+<ul>
+<li>Using the same data object</li>
+<li>Different data objects</li>
+</ul></li>
+<li>Hands-on (10 minutes)</li>
+<li>Graph appearance (15 minutes)
+<ul>
+<li>Themes &amp; Scales</li>
+<li>Titles, legends, etc.</li>
+</ul></li>
+<li>Hands-on (5 minutes)</li>
+<li>ggplot2 extensions (15 minutes)
+<ul>
+<li>Animation</li>
+<li>Domain-specific (e.g. network analysis, time series data)</li>
+<li>Appearance customization (custom themes, scales, etc.)</li>
+</ul></li>
+<li>Hands-on (10 minutes)</li>
+<li>Interactivity with plotly (10 minutes)
+<ul>
+<li><code>ggplotly()</code></li>
+<li>Tooltips</li>
+</ul></li>
+<li>Hands-on (5 minutes)</li>
+</ul>
+</div>
+<div id="expected-level-of-audiences-r-background" class="section level2">
+<h2>Expected level of audience’s R background: <!-- ~50 words, a designation of beginner, intermediate, or advanced, and a short description of expected R-related skills.--></h2>
+<p>I anticipate two audiences for this tutorial: beginning R users, defined as having less than one year of continual experience, and advanced R users interested in data visualization and new to the <code>tidyverse</code>. I expect the following skills:</p>
+<ul>
+<li>Basic understanding of R data types and structures</li>
+<li>Ability to write simple functions and loops</li>
+<li>Willingness to learn new ways of doing things in R</li>
+</ul>
+</div>
+<div id="other-considerations" class="section level2">
+<h2>Other considerations: <!-- ~ 100 words, describing any other constraints/needs the instructor might have that are relevant in delivering the learning experience to the attendees. If there are additional resources (available online) that the instructor things can help the audience to continue their learning beyond the tutorial, they can be included here, too.--></h2>
+<p>For the tutorial I will alternate between lecturing and hands-on time. For the lecture portion, I use slides, and will need a projector and a way to connect my personal laptop, as well as a place to put notes, a water bottle, etc. For the hands-on time, participants will require Internet access and a comfortable work setting with enough space to accomodate everyone’s laptops, notebooks, etc. In additon, I would ask that the organizers please consider body diversity when choosing a space. This includes having tables that can accomodate wheelchairs, chairs without arms for folks in larger bodies, and tables available at standing height for those unable to sit for long periods.</p>
+<p>Additional ggplot2 resources:</p>
+<ul>
+<li>Documentation, <a href="https://ggplot2.tidyverse.org/index.html">ggplot2.tidyverse.org</a></li>
+<li>Book, <a href="https://ggplot2-book.org">ggplot2-book.org</a></li>
+<li><a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">Data Visualization with ggplot2</a> cheatsheet from RStudio (within RStudio, Help <span class="math inline">\(\rightarrow\)</span> Cheatsheets <span class="math inline">\(\rightarrow\)</span> Data Visualization with ggplot2)</li>
+<li>StackOverflow has <a href="https://stackoverflow.com/questions/tagged/ggplot2">30,000+</a> questions tagged “[ggplot2]”</li>
+<li>ggplot2 <a href="https://github.com/tidyverse/ggplot2/issues">Github repository</a> has thousands of closed issues, representing problems that users at all levels have encounterd.</li>
+</ul>
+</div>

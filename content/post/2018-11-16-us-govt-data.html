@@ -1,0 +1,310 @@
+---
+title: "Where does the U.S. Government Keep its Data?"
+date: 2018-11-16T10:13:19-05:00
+categories: ["R", "data"]
+tags: ["government", "graphics group"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<!--
+### If the post looks funky use [this](../static/presentations/Misc/GraphicsGroupISU/2018-11-16-us-govt-data.html) instead. 
+-->
+<div id="non-exhaustive-list-of-r-package-sources-for-getting-government-data" class="section level3">
+<h3>Non-exhaustive list of R Package Sources for getting government data:</h3>
+<ul>
+<li><a href="https://github.com/rOpenGov/federalregister"><code>federalregister</code></a></li>
+<li><a href="http://ropengov.github.io/projects/"><code>ropengov</code></a></li>
+<li><a href="https://cran.r-project.org/web/packages/censusapi/censusapi.pdf"><code>censusapi</code></a></li>
+<li><a href="https://github.com/transportfoundry/censusr"><code>censusr</code></a></li>
+<li><a href="https://www.r-pkg.org/pkg/tidycensus"><code>tidycensus</code></a></li>
+<li><a href="https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NHEERL&amp;direntryid=335983"><code>elevater</code></a></li>
+</ul>
+</div>
+<div id="principal-statistical-agency-programs" class="section level1">
+<h1>Principal Statistical Agency Programs</h1>
+<p>Inspiration and primary source for all of this information: <a href="https://obamawhitehouse.archives.gov/sites/default/files/omb/assets/information_and_regulatory_affairs/statistical-programs-2017.pdf">Statistical Programs of the United States Government Fiscal Year 2017</a></p>
+<p>“The Federal Statistical System of the United States is the decentralized network of federal agencies which produce data about the people, economy, natural resources, and infrastructure of the United States.” (<a href="https://en.wikipedia.org/wiki/Federal_Statistical_System_of_the_United_States">Wikipedia</a>)</p>
+<p>I recently got the opportunity to visit the offices of the <a href="http://sites.nationalacademies.org/dbasse/cnstat/index.htm">Committee on National Statistics</a> and I realized I had no idea just how much statistical work the Federal government does. Before this, the only statistical agency I really knew about was the Census Bureau. Based on my complete and total ignorance about all of the work done and data collected by the U.S. federal government, I decided to compile together as many sources of data as I could. Wherever possible, I tried to find APIs. This list is also probably not exhaustive. There is also way more data from state and local governments on <a href="https://www.data.gov/">data.gov</a>, but I have not found this site to be particularly helpful when just looking for possible interesting data sources. It’s better for very specific searches in my opinion.</p>
+<p>These 13 principal agencies are crucial to collecting data on the population and resources of the United States. They “provide critical support for policymaking, program management, and evaluation.” Two of the 13 are independent: the National Center for Science and Engineering Statistics (NCSES), a part of the National Science Foundation (NSF), and the Office of Research, Evaluation, and Statistics (ORES), a part of the Social Security Administration (SSA).</p>
+<p>(If you’re exhausted by the alphabet soup already, I suggest you stop reading….)</p>
+<p>The report linked at the top contains descriptions of every agency and every statistical program. It also links to every program’s website and provides employment data tables for the 13 principal agencies. Below, the numbers (x/y) are x = the number of statisticians employed and y = the number of full-time employees in the agency as of 2017.</p>
+<ol style="list-style-type: decimal">
+<li>Bureau of Economic Analysis (BEA): (12/509 <span class="math inline">\(\approx\)</span> 2%)
+<ul>
+<li>Description: “BEA is responsible for the preparation, development, and interpretation of the Nation’s economic accounts.”</li>
+<li>Home Agency: Department of Commerce (DOC)</li>
+<li><a href="https://www.bea.gov/">Website</a></li>
+<li><a href="https://apps.bea.gov/API/signup/index.cfm">API</a></li>
+</ul></li>
+<li>Bureau of Justice Statistics (BJS): (42/69 <span class="math inline">\(\approx\)</span> 61%)
+<ul>
+<li>Description: “BJS collects, analyzes, publishes, and disseminates statistical information on all aspects of the criminal justice system; assists State, Tribal, and local governments in gathering and
+analyzing justice statistics; and disseminates high value information and statistics to inform policymakers, researchers, criminal justice practitioners and the general public.”</li>
+<li>Home Agency: Department of Justice (DOJ)</li>
+<li><a href="https://www.bjs.gov/">Website</a></li>
+<li><a href="https://www.bjs.gov/datacollection.cfm">Data</a></li>
+</ul></li>
+<li>Bureau of Labor Statistics (BLS): (168/2167 <span class="math inline">\(\approx\)</span> 8%)
+<ul>
+<li>Description: “BLS is responsible for measuring labor market activity, working conditions, and price changes in the economy.”</li>
+<li>Home Agency: Department of Labor (DOL)</li>
+<li><a href="https://www.bls.gov/">Website</a></li>
+<li><a href="https://www.bls.gov/developers/api_r.htm">API</a> (An R script for accessing their API!!)</li>
+</ul></li>
+<li>Bureau of Transportation Statistics (BTS): (15/84 <span class="math inline">\(\approx\)</span> 18%)
+<ul>
+<li>Description: “BTS compiles, analyzes, and disseminates information about the Nation’s transportation systems, including the extent, use, condition, performance, and consequences of those systems.”</li>
+<li>Home Agency: Department of Transportation (DOT)</li>
+<li><a href="https://www.bts.gov/">Website</a></li>
+<li><a href="https://www.bts.gov/browse-statistical-products-and-data">Data</a> (an <a href="https://www.bts.gov/browse-statistical-products-and-data/pocket-guide-transportation/pocket-guide-transportation">app</a>)</li>
+</ul></li>
+<li>Census Bureau (Census): (2311/6551 <span class="math inline">\(\approx\)</span> 35%)
+<ul>
+<li>Description: “Census measures and disseminates information about the Nation’s ever-changing economy, society, and institutions.”</li>
+<li>Home Agency: DOC</li>
+<li><a href="https://www.census.gov/">Website</a></li>
+<li><a href="https://www.census.gov/data/developers/data-sets.html">APIs (plural!)</a></li>
+</ul></li>
+<li>Economic Research Service (ERS): (1/359 <span class="math inline">\(\approx\)</span> .3%)
+<ul>
+<li>Description: “ERS provides economic and other social science research and analysis to inform public and private decision making on agriculture, food, natural resources, and rural America.”</li>
+<li>Home Agency: United States Department of Agriculture (USDA)</li>
+<li>Website: <a href="https://www.ers.usda.gov/" class="uri">https://www.ers.usda.gov/</a></li>
+<li><del>API</del> Prayer directed at Excel files here: <a href="https://www.ers.usda.gov/data-products/" class="uri">https://www.ers.usda.gov/data-products/</a></li>
+<li>Bonus: Cool sounding <a href="https://www.ers.usda.gov/about-ers/careers-at-ers/employment-opportunities/data-scientist-post-doctoral-position/">postdoc gig</a>. Application due November 19, 2018!</li>
+</ul></li>
+<li>Energy Information Administration (EIA): (75/368 <span class="math inline">\(=\)</span> 20%)
+<ul>
+<li>Description: “EIA collects, analyzes, and disseminates independent and impartial energy information to promote sound policymaking, efficient markets, and public understanding of energy and its interaction with the economy and the environment.”</li>
+<li>Home Agency: Department of Energy (DOE)</li>
+<li>Website: <a href="https://www.eia.gov" class="uri">https://www.eia.gov</a></li>
+<li>API: <a href="https://www.eia.gov/opendata/qb.php" class="uri">https://www.eia.gov/opendata/qb.php</a></li>
+</ul></li>
+<li>National Agricultural Statistics Service (NASS): (634/1037 <span class="math inline">\(\approx\)</span> 61%)
+<ul>
+<li>Description: " NASS collects, summarizes, analyzes, and publishes data on the number of farms and land in farms; acreage, yield, production, and stocks of crops; inventories and production of livestock, including eggs and dairy products; prices received by farmers for products, prices paid for commodities and services, and related indexes; agriculture production and marketing data; cold storage supplies; agricultural chemical use; and other related areas of the agricultural economy."</li>
+<li>Home Agency: USDA</li>
+<li>Website: <a href="https://www.nass.usda.gov/" class="uri">https://www.nass.usda.gov/</a></li>
+<li>API: <a href="https://quickstats.nass.usda.gov/api" class="uri">https://quickstats.nass.usda.gov/api</a> (This was hard to find.)</li>
+</ul></li>
+<li>National Center for Education Statistics (NCES): (71/93 <span class="math inline">\(\approx\)</span> 76%)
+<ul>
+<li>Description: “NCES collects, analyzes, and disseminates education statistics at all levels, from preschool through postsecondary and adult education, including statistics on international education.”</li>
+<li>Home Agency: Department of Education (ED)</li>
+<li>Website: <a href="https://nces.ed.gov/" class="uri">https://nces.ed.gov/</a></li>
+<li><del>API</del> Good luck: <a href="https://nces.ed.gov/pubsearch/" class="uri">https://nces.ed.gov/pubsearch/</a> , <a href="https://nces.ed.gov/datatools/" class="uri">https://nces.ed.gov/datatools/</a></li>
+</ul></li>
+<li>National Center for Health Statistics (NCHS): (164/503 <span class="math inline">\(\approx\)</span> 33%)
+<ul>
+<li>Description: “NCHS is responsible for the collection, maintenance, analysis, and dissemination of statistics on the nature and extent of the health, illness, and disability of the U.S. population; the impact of illness and disability on the economy; the effects of environmental,
+social, and other health hazards; health care costs and financing; family formation, growth, and dissolution; and vital events (births and deaths).”</li>
+<li>Home Agency: Department of Health and Human Services (HHS)</li>
+<li>Website: <a href="https://www.cdc.gov/nchs/" class="uri">https://www.cdc.gov/nchs/</a></li>
+<li>API: Supposedly <a href="http://www.healthindicators.gov/" class="uri">http://www.healthindicators.gov/</a> and <a href="https://ephtracking.cdc.gov/apihelp" class="uri">https://ephtracking.cdc.gov/apihelp</a> and <a href="https://wonder.cdc.gov/" class="uri">https://wonder.cdc.gov/</a> and <a href="https://www.cdc.gov/sdp/SDPForDevelopers.html" class="uri">https://www.cdc.gov/sdp/SDPForDevelopers.html</a>.</li>
+</ul></li>
+<li>National Center for Science and Engineering Statistics (NCSES): (25/52 <span class="math inline">\(\approx\)</span> 48%)
+<ul>
+<li>Description: “NCSES is called on to support the collection of statistical data on research and development trends, the science and engineering workforce, U.S. competitiveness, and the condition and progress of the Nation’s science, technology, engineering, and mathematics (STEM) education; to support research using the data it collects and on methodologies in areas related to the work of the Center; and to support the education and training of researchers in the use of its own and other large-scale, nationally representative data sets.”</li>
+<li>Home Agency: NSF</li>
+<li>Website: <a href="https://www.nsf.gov/statistics/" class="uri">https://www.nsf.gov/statistics/</a></li>
+<li><del>API</del> Prayer and patience: <a href="https://www.nsf.gov/statistics/data-tools.cfm" class="uri">https://www.nsf.gov/statistics/data-tools.cfm</a></li>
+</ul></li>
+<li>Office of Research, Evaluation, and Statistics (ORES): (3/66 <span class="math inline">\(\approx\)</span> 5%)
+<ul>
+<li>Description: “ORES performs demographic and socioeconomic research to assess the impact of program changes or alternatives.”</li>
+<li>Home Agency: SSA</li>
+<li>Website: <a href="https://www.ssa.gov/policy/about/ORES.html" class="uri">https://www.ssa.gov/policy/about/ORES.html</a></li>
+<li><del>API</del> Prayer: <a href="https://www.ssa.gov/policy/docs/data/index.html" class="uri">https://www.ssa.gov/policy/docs/data/index.html</a></li>
+</ul></li>
+<li>Statistics of Income (SOI): (25/116 <span class="math inline">\(\approx\)</span> 22%)
+<ul>
+<li>Description: “SOI collects, analyzes, and disseminates information
+on the Federal tax system.”</li>
+<li>Home Agency: Internal Revenue Service (IRS)</li>
+<li>Website: <a href="https://www.irs.gov/statistics/soi-tax-stats-about-soi" class="uri">https://www.irs.gov/statistics/soi-tax-stats-about-soi</a></li>
+<li><del>API</del> 🤷: <a href="https://www.irs.gov/statistics/soi-tax-stats-release-and-dissemination" class="uri">https://www.irs.gov/statistics/soi-tax-stats-release-and-dissemination</a></li>
+</ul></li>
+</ol>
+</div>
+<div id="other-federal-statistical-programs-by-department" class="section level1">
+<h1>Other Federal Statistical Programs, by Department</h1>
+<p>Of the fifteen US federal government departments, fourteen have additional statistical programs (outside of the 13 principal statistical agencies), and there are even more programs in independent agencies. There are 115 of these statistical programs in total (yes, I counted them). For each one, I just link to the closest thing to a data website I could find.</p>
+<ol style="list-style-type: decimal">
+<li>Department of Agriculture : <a href="https://www.usda.gov/media/digital/developer-resources" class="uri">https://www.usda.gov/media/digital/developer-resources</a>
+<ol style="list-style-type: lower-alpha">
+<li>Agricultural Research Service (ARS) : <a href="https://www.ars.usda.gov/research/datasets/" class="uri">https://www.ars.usda.gov/research/datasets/</a></li>
+<li>Food and Nutrition Service (FNS) : <a href="https://www.fns.usda.gov/data-and-statistics" class="uri">https://www.fns.usda.gov/data-and-statistics</a></li>
+<li>Foreign Agricultural Service (FAS) : <a href="https://www.fas.usda.gov/data" class="uri">https://www.fas.usda.gov/data</a></li>
+<li>Forest Service (FS) : closest I could find to a data warehouse <a href="https://www.fs.fed.us/publications" class="uri">https://www.fs.fed.us/publications</a></li>
+<li>Natural Resources Conservation Service (NRCS) : <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=stelprdb1049255" class="uri">https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=stelprdb1049255</a></li>
+<li>Risk Management Agency (RMA) : <a href="https://www.rma.usda.gov/" class="uri">https://www.rma.usda.gov/</a> under the “Tools” menu</li>
+<li>World Agricultural Outlook Board (WAOB) : (just some reports) <a href="https://www.usda.gov/oce/commodity/index.htm" class="uri">https://www.usda.gov/oce/commodity/index.htm</a></li>
+</ol></li>
+<li>Department of Commerce : APIs linked + code on Github!!!! <a href="https://github.com/CommerceGov/commerce.gov-api" class="uri">https://github.com/CommerceGov/commerce.gov-api</a>
+<ol style="list-style-type: lower-alpha">
+<li>Economics and Statistics Administration (ESA) : <a href="https://www.commerce.gov/bureaus-and-offices/ousea" class="uri">https://www.commerce.gov/bureaus-and-offices/ousea</a></li>
+<li>International Trade Administration (ITA) : API here: <a href="https://developer.trade.gov/" class="uri">https://developer.trade.gov/</a></li>
+<li>National Oceanic and Atmospheric Administration (NOAA) : <a href="https://www.ncdc.noaa.gov/cdo-web/webservices/v2" class="uri">https://www.ncdc.noaa.gov/cdo-web/webservices/v2</a> (R Package <a href="https://cran.r-project.org/web/packages/rnoaa/index.html" class="uri">https://cran.r-project.org/web/packages/rnoaa/index.html</a>)</li>
+<li>National Environmental Satellite, Data, and Information Service (NESDIS) : Cool maps and other viz <a href="https://www.nesdis.noaa.gov/content/imagery-and-data" class="uri">https://www.nesdis.noaa.gov/content/imagery-and-data</a></li>
+<li>Marine Fisheries Service (NMFS) : <a href="https://www.fisheries.noaa.gov/resources/data-and-maps" class="uri">https://www.fisheries.noaa.gov/resources/data-and-maps</a></li>
+<li>Patent and Trademark Office (PTO) : <a href="https://www.uspto.gov/learning-and-resources/open-data-and-mobility" class="uri">https://www.uspto.gov/learning-and-resources/open-data-and-mobility</a></li>
+</ol></li>
+<li>Department of Defense : <a href="https://data.defense.gov/" class="uri">https://data.defense.gov/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Army Corps of Engineers (ACE) : <a href="https://www.iwr.usace.army.mil/about/technical-centers/wcsc-waterborne-commerce-statistics-center/" class="uri">https://www.iwr.usace.army.mil/about/technical-centers/wcsc-waterborne-commerce-statistics-center/</a></li>
+<li>Defense Health Agency (DHA) : <a href="https://health.mil/Military-Health-Topics/Health-Readiness/Armed-Forces-Health-Surveillance-Branch/Data-Management-and-Technical-Support" class="uri">https://health.mil/Military-Health-Topics/Health-Readiness/Armed-Forces-Health-Surveillance-Branch/Data-Management-and-Technical-Support</a></li>
+<li>Defense Manpower Data Center (DMDC) : <a href="https://www.dmdc.osd.mil/appj/dwp/data_reqs.jsp" class="uri">https://www.dmdc.osd.mil/appj/dwp/data_reqs.jsp</a></li>
+</ol></li>
+<li>Department of Education: <a href="https://www2.ed.gov/rschstat/catalog/index.html" class="uri">https://www2.ed.gov/rschstat/catalog/index.html</a>, <a href="https://eddataexpress.ed.gov/?src=ft" class="uri">https://eddataexpress.ed.gov/?src=ft</a> , <a href="https://usedgov.github.io/" class="uri">https://usedgov.github.io/</a>, <a href="https://usedgov.github.io/api/" class="uri">https://usedgov.github.io/api/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Institute of Education Sciences (IES) : <a href="https://ies.ed.gov/data.asp" class="uri">https://ies.ed.gov/data.asp</a></li>
+<li>Office of Career, Technical, and Adult Education (OCTAE) : <a href="https://www2.ed.gov/about/offices/list/ovae/resource/index.html" class="uri">https://www2.ed.gov/about/offices/list/ovae/resource/index.html</a></li>
+<li>Office for Civil Rights (OCR) : <a href="https://ocrdata.ed.gov/" class="uri">https://ocrdata.ed.gov/</a></li>
+<li>Office of Elementary and Secondary Education (OESE) : <a href="https://www2.ed.gov/about/offices/list/oese/resources.html" class="uri">https://www2.ed.gov/about/offices/list/oese/resources.html</a></li>
+<li>Office of Innovation and Improvement (OII) : <a href="https://innovation.ed.gov/resources/" class="uri">https://innovation.ed.gov/resources/</a></li>
+<li>Office of Planning, Evaluation, and Policy Development (OPEPD) : <a href="https://www2.ed.gov/about/offices/list/opepd/reports.html" class="uri">https://www2.ed.gov/about/offices/list/opepd/reports.html</a></li>
+<li>Office of Postsecondary Education (OPE) : <a href="https://nces.ed.gov/ipeds/use-the-data" class="uri">https://nces.ed.gov/ipeds/use-the-data</a></li>
+<li>Office of Special Education and Rehabilitative Services (OSERS) : <a href="https://rsa.ed.gov/" class="uri">https://rsa.ed.gov/</a></li>
+</ol></li>
+<li>Department of Energy : <a href="https://www.energy.gov/data/open-energy-data" class="uri">https://www.energy.gov/data/open-energy-data</a>
+<ol style="list-style-type: lower-alpha">
+<li>Office of Environment, Health, Safety, and Security (OEHSS) : <a href="https://www.energy.gov/ehss/policy-guidance-reports/databases" class="uri">https://www.energy.gov/ehss/policy-guidance-reports/databases</a></li>
+</ol></li>
+<li>Department of Health and Human Services : <a href="https://www.hhs.gov/developer.html" class="uri">https://www.hhs.gov/developer.html</a>, <a href="https://healthdata.gov/" class="uri">https://healthdata.gov/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Administration for Children and Families (ACF) : <a href="https://www.acf.hhs.gov/reports#block-acf-theme-opre-reports" class="uri">https://www.acf.hhs.gov/reports#block-acf-theme-opre-reports</a></li>
+<li>Administration for Community Living (ACL) : <a href="https://agid.acl.gov/" class="uri">https://agid.acl.gov/</a></li>
+<li>Agency for Healthcare Research and Quality (AHRQ) : <a href="https://www.ahrq.gov/data/resources/index.html" class="uri">https://www.ahrq.gov/data/resources/index.html</a></li>
+<li>Centers for Disease Control and Prevention (CDC) : <a href="https://data.cdc.gov/" class="uri">https://data.cdc.gov/</a> ; <a href="https://github.com/CDCgov" class="uri">https://github.com/CDCgov</a> .
+<ol style="list-style-type: lower-roman">
+<li>Agency for Toxic Substance and Disease Registry (ATSDR) : <a href="https://www.atsdr.cdc.gov/publications_data_resources.html" class="uri">https://www.atsdr.cdc.gov/publications_data_resources.html</a></li>
+<li>Center for Global Health : <a href="https://www.cdc.gov/globalhealth/index.html" class="uri">https://www.cdc.gov/globalhealth/index.html</a></li>
+<li>National Center on Birth Defects and Developmental Disabilities (NCBDDD) : <a href="https://www.cdc.gov/ncbddd/index.html" class="uri">https://www.cdc.gov/ncbddd/index.html</a></li>
+<li>National Center for Chronic Disease Prevention and Health Promotion (NCCDPHP) : <a href="https://www.cdc.gov/chronicdisease/data/indicators.htm" class="uri">https://www.cdc.gov/chronicdisease/data/indicators.htm</a></li>
+<li>National Center for Emerging Zoonotic and Infectious Diseases (NCEZID) : <a href="https://www.cdc.gov/ncezid/multimedia/infographics.html" class="uri">https://www.cdc.gov/ncezid/multimedia/infographics.html</a></li>
+<li>National Center for Environmental Health (NCEH) : <a href="https://www.cdc.gov/nceh/data.htm" class="uri">https://www.cdc.gov/nceh/data.htm</a></li>
+<li>National Center for HIV/AIDS, Viral Hepatitis, Sexually Transmitted Disease, and Tuberculosis Prevention (NCHHSTP) : <a href="https://www.cdc.gov/nchhstp/data-tools-resources.htm" class="uri">https://www.cdc.gov/nchhstp/data-tools-resources.htm</a></li>
+<li>National Center for Immunization and Respiratory Diseases (NCIRD) : <a href="https://www.cdc.gov/ncird/" class="uri">https://www.cdc.gov/ncird/</a></li>
+<li>National Center for Injury Prevention and Control (NCIPC) : <a href="https://www.cdc.gov/injury/wisqars/index.html" class="uri">https://www.cdc.gov/injury/wisqars/index.html</a></li>
+<li>National Institute for Occupational Safety and Health (NIOSH) : <a href="https://www.cdc.gov/niosh/data/default.html" class="uri">https://www.cdc.gov/niosh/data/default.html</a></li>
+<li>Office of Public Health Scientific Services (PHSS) : <a href="https://www.cdc.gov/cpr/" class="uri">https://www.cdc.gov/cpr/</a></li>
+</ol></li>
+<li>Centers for Medicare and Medicaid Services (CMS) : <a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Research-Statistics-Data-and-Systems.html" class="uri">https://www.cms.gov/Research-Statistics-Data-and-Systems/Research-Statistics-Data-and-Systems.html</a></li>
+<li>Health Resources and Services Administration (HRSA) : <a href="https://data.hrsa.gov/" class="uri">https://data.hrsa.gov/</a></li>
+<li>Indian Health Service (IHS) : <a href="https://www.ihs.gov/dps/" class="uri">https://www.ihs.gov/dps/</a></li>
+<li>National Institutes of Health (NIH) : <a href="https://www.nimhd.nih.gov/resources/reports-data.html" class="uri">https://www.nimhd.nih.gov/resources/reports-data.html</a>, <a href="https://ghr.nlm.nih.gov/about/data-files-api" class="uri">https://ghr.nlm.nih.gov/about/data-files-api</a>, <a href="https://report.nih.gov/databases.aspx" class="uri">https://report.nih.gov/databases.aspx</a></li>
+<li>National Cancer Institute (NCI) : <a href="https://api.seer.cancer.gov/" class="uri">https://api.seer.cancer.gov/</a>, <a href="https://clinicaltrialsapi.cancer.gov/" class="uri">https://clinicaltrialsapi.cancer.gov/</a> , <a href="https://www.cancer.gov/search/results?swKeyword=api" class="uri">https://www.cancer.gov/search/results?swKeyword=api</a></li>
+<li>National Center for Complementary and Integrative Health (NCCIH) : <a href="https://nccih.nih.gov/research/statistics" class="uri">https://nccih.nih.gov/research/statistics</a></li>
+<li>National Eye Institute (NEI) : <a href="https://nei.nih.gov/eyedata" class="uri">https://nei.nih.gov/eyedata</a></li>
+<li>National Heart, Lung, and Blood Institute (NHLBI) : <a href="https://www.nhlbi.nih.gov/science" class="uri">https://www.nhlbi.nih.gov/science</a></li>
+<li>National Human Genome Research Institute (NHGRI) : <a href="https://www.genome.gov/policyethics/legdatabase/pubsearch.cfm" class="uri">https://www.genome.gov/policyethics/legdatabase/pubsearch.cfm</a>, <a href="https://www.genome.gov/10000018/computational-and-statistical-genomics-branch-csgb/" class="uri">https://www.genome.gov/10000018/computational-and-statistical-genomics-branch-csgb/</a></li>
+<li>National Institute on Aging (NIA) : <a href="https://www.nia.nih.gov/research/resources" class="uri">https://www.nia.nih.gov/research/resources</a></li>
+<li>National Institute on Alcohol Abuse and Alcoholism (NIAAA) : <a href="https://www.niaaa.nih.gov/research/guidelines-and-resources/epidemiologic-data" class="uri">https://www.niaaa.nih.gov/research/guidelines-and-resources/epidemiologic-data</a></li>
+<li>National Institute of Allergy and Infectious Diseases (NIAID) : <a href="https://www.niaid.nih.gov/research/resources" class="uri">https://www.niaid.nih.gov/research/resources</a></li>
+<li>National Institute of Biomedical Imaging and Bioengineering (NIBIB) : <a href="https://www.nibib.nih.gov/" class="uri">https://www.nibib.nih.gov/</a></li>
+<li>National Institute of Child Health and Human Development (NICHD) : <a href="https://www.nichd.nih.gov/research/resources/index" class="uri">https://www.nichd.nih.gov/research/resources/index</a></li>
+<li>National Institute on Deafness and Other Communication Disorders (NIDCD) : <a href="https://www.nidcd.nih.gov/" class="uri">https://www.nidcd.nih.gov/</a></li>
+<li>National Institute of Dental and Craniofacial Research (NIDCR) : <a href="https://www.nidcr.nih.gov/research/data-statistics" class="uri">https://www.nidcr.nih.gov/research/data-statistics</a></li>
+<li>National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) : <a href="https://www.niddk.nih.gov/research-funding/research-resources" class="uri">https://www.niddk.nih.gov/research-funding/research-resources</a></li>
+<li>National Institute on Drug Abuse (NIDA) : <a href="https://github.com/nih-nida" class="uri">https://github.com/nih-nida</a></li>
+<li>National Institute of Environmental Health Sciences (NIEHS) : <a href="https://www.niehs.nih.gov/research/resources/databases/index.cfm" class="uri">https://www.niehs.nih.gov/research/resources/databases/index.cfm</a></li>
+<li>National Institute of General Medical Sciences’ (NIGMS) : <a href="https://www.nigms.nih.gov/education/other-resources" class="uri">https://www.nigms.nih.gov/education/other-resources</a></li>
+<li>National Institute of Mental Health (NIMH) : <a href="https://www.nimh.nih.gov/health/statistics/index.shtml" class="uri">https://www.nimh.nih.gov/health/statistics/index.shtml</a></li>
+<li>Office of the Director (NIH/OD) : <a href="https://acd.od.nih.gov/working-groups.html" class="uri">https://acd.od.nih.gov/working-groups.html</a></li>
+<li>Office of the Assistant Secretary for Planning and Evaluation (ASPE) : <a href="https://aspe.hhs.gov/basic-search/data" class="uri">https://aspe.hhs.gov/basic-search/data</a></li>
+<li>Office of Population Affairs (OPA) : <a href="https://www.hhs.gov/opa/" class="uri">https://www.hhs.gov/opa/</a></li>
+<li>Substance Abuse and Mental Health Services Administration (SAMHSA) : <a href="https://www.samhsa.gov/data/all-reports" class="uri">https://www.samhsa.gov/data/all-reports</a></li>
+</ol></li>
+<li>Department of Homeland Security : <a href="https://www.dhs.gov/dhs-developer-community" class="uri">https://www.dhs.gov/dhs-developer-community</a>
+<ol style="list-style-type: lower-alpha">
+<li>Citizenship and Immigration Services (CIS) : <a href="https://www.uscis.gov/tools/reports-studies/immigration-forms-data" class="uri">https://www.uscis.gov/tools/reports-studies/immigration-forms-data</a></li>
+<li>Coast Guard : <a href="https://www.uscg.mil/" class="uri">https://www.uscg.mil/</a></li>
+<li>Customs and Border Protection (CBP) : <a href="https://www.cbp.gov/trade/itrac-requests" class="uri">https://www.cbp.gov/trade/itrac-requests</a>, <a href="https://www.cbp.gov/newsroom/stats" class="uri">https://www.cbp.gov/newsroom/stats</a></li>
+<li>Federal Emergency Management Agency’s (FEMA) : <a href="https://www.fema.gov/data-visualization" class="uri">https://www.fema.gov/data-visualization</a>, <a href="https://www.fema.gov/data-feeds" class="uri">https://www.fema.gov/data-feeds</a></li>
+<li>Office of Immigration Statistics (OIS) : <a href="https://www.dhs.gov/immigration-statistics" class="uri">https://www.dhs.gov/immigration-statistics</a> (Link was broken last I checked…)</li>
+</ol></li>
+<li>Department of Housing and Urban Development : <a href="https://data.hud.gov/" class="uri">https://data.hud.gov/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Office of Housing (Housing) : <a href="https://www.hud.gov/program_offices/housing" class="uri">https://www.hud.gov/program_offices/housing</a></li>
+<li>Office of Policy Development and Research (PD&amp;R) : <a href="https://www.huduser.gov/portal/pdrdatas_landing.html" class="uri">https://www.huduser.gov/portal/pdrdatas_landing.html</a></li>
+<li>Office of Public and Indian Housing (PIH) : <a href="https://www.hud.gov/program_offices/public_indian_housing/ih/pubs" class="uri">https://www.hud.gov/program_offices/public_indian_housing/ih/pubs</a></li>
+</ol></li>
+<li>Department of the Interior : <a href="https://www.doi.gov/data" class="uri">https://www.doi.gov/data</a>, <a href="https://data.doi.gov/dataset" class="uri">https://data.doi.gov/dataset</a>
+<ol style="list-style-type: lower-alpha">
+<li>Bureau of Land Management (BLM) : <a href="https://www.blm.gov/about/data" class="uri">https://www.blm.gov/about/data</a></li>
+<li>Bureau of Ocean Energy Management (BOEM) : <a href="https://www.boem.gov/Maps-and-GIS-Data/" class="uri">https://www.boem.gov/Maps-and-GIS-Data/</a>, <a href="https://www.boem.gov/Renewable-Energy-Program-Mapping-and-Data/" class="uri">https://www.boem.gov/Renewable-Energy-Program-Mapping-and-Data/</a>, <a href="https://www.data.boem.gov/" class="uri">https://www.data.boem.gov/</a> (woof)</li>
+<li>Bureau of Reclamation (BoR) : <a href="https://water.usbr.gov/" class="uri">https://water.usbr.gov/</a> , <a href="https://www.usbr.gov/rsvrWater/HistoricalApp.html" class="uri">https://www.usbr.gov/rsvrWater/HistoricalApp.html</a></li>
+<li>Fish and Wildlife Service (FWS) : <a href="https://www.fws.gov/southeast/data-management/" class="uri">https://www.fws.gov/southeast/data-management/</a>, <a href="https://www.fws.gov/gis/data/national/" class="uri">https://www.fws.gov/gis/data/national/</a></li>
+<li>Geological Survey (GS) : <a href="https://www.usgs.gov/products/data-and-tools/overview" class="uri">https://www.usgs.gov/products/data-and-tools/overview</a> (NICE!)</li>
+<li>National Park Service (NPS) : <a href="https://www.nps.gov/gis/data_info/" class="uri">https://www.nps.gov/gis/data_info/</a>, <a href="https://irma.nps.gov/DataStore/" class="uri">https://irma.nps.gov/DataStore/</a>, <a href="https://www.nps.gov/subjects/digital/nps-data-api.htm" class="uri">https://www.nps.gov/subjects/digital/nps-data-api.htm</a></li>
+<li>Office of Natural Resources Revenue (ONRR) : <a href="https://revenuedata.doi.gov/explore/#federal-disbursements" class="uri">https://revenuedata.doi.gov/explore/#federal-disbursements</a>, <a href="https://www.onrr.gov/About/production-data.htm" class="uri">https://www.onrr.gov/About/production-data.htm</a></li>
+</ol></li>
+<li>Department of Justice : <a href="https://www.justice.gov/developer" class="uri">https://www.justice.gov/developer</a> , <a href="https://data.ojp.gov/developer/index.html" class="uri">https://data.ojp.gov/developer/index.html</a>
+<ol style="list-style-type: lower-alpha">
+<li>Bureau of Prisons’ (BOP) : <a href="http://prisondb.github.io/bopapidocs.html" class="uri">http://prisondb.github.io/bopapidocs.html</a> (not affiliated with bop.gov), <a href="https://www.bop.gov/about/statistics/" class="uri">https://www.bop.gov/about/statistics/</a></li>
+<li>Drug Enforcement Administration (DEA) : <a href="https://www.dea.gov/data-and-statistics" class="uri">https://www.dea.gov/data-and-statistics</a>, <a href="https://dea.ntis.gov/" class="uri">https://dea.ntis.gov/</a></li>
+<li>Federal Bureau of Investigation’s (FBI) : <a href="https://www.fbi.gov/wanted/api" class="uri">https://www.fbi.gov/wanted/api</a>, <a href="https://crime-data-explorer.fr.cloud.gov/api" class="uri">https://crime-data-explorer.fr.cloud.gov/api</a></li>
+<li>National Institute of Justice (NIJ) : <a href="https://www.nij.gov/journals/258/Pages/forensic-databases.aspx" class="uri">https://www.nij.gov/journals/258/Pages/forensic-databases.aspx</a>, <a href="https://www.nij.gov/funding/data-resources-program/Pages/accessing.aspx" class="uri">https://www.nij.gov/funding/data-resources-program/Pages/accessing.aspx</a></li>
+<li>Office of Juvenile Justice and Delinquency Prevention (OJJDP) : <a href="https://www.icpsr.umich.edu/icpsrweb/content/NACJD/archiving/deposit-ojjdp-data.html" class="uri">https://www.icpsr.umich.edu/icpsrweb/content/NACJD/archiving/deposit-ojjdp-data.html</a>, <a href="https://www.ojjdp.gov/ojstatbb/dat.htmlm" class="uri">https://www.ojjdp.gov/ojstatbb/dat.htmlm</a> <a href="https://www.ojjdp.gov/ojstatbb/ezapop/" class="uri">https://www.ojjdp.gov/ojstatbb/ezapop/</a></li>
+</ol></li>
+<li>Department of Labor: <a href="https://enforcedata.dol.gov/homePage.php" class="uri">https://enforcedata.dol.gov/homePage.php</a>, <a href="https://developer.dol.gov/" class="uri">https://developer.dol.gov/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Chief Evaluation Office (CEO) : <a href="https://www.dol.gov/asp/evaluation/PublicUseData.htm" class="uri">https://www.dol.gov/asp/evaluation/PublicUseData.htm</a></li>
+<li>Employment and Training Administration (ETA) : <a href="https://www.doleta.gov/research/" class="uri">https://www.doleta.gov/research/</a></li>
+<li>Mine Safety and Health Administration (MSHA) : <a href="https://www.msha.gov/data-reports/data-sources-calculators" class="uri">https://www.msha.gov/data-reports/data-sources-calculators</a></li>
+<li>Occupational Safety and Health Administration (OSHA) : <a href="https://www.osha.gov/oshstats/index.html" class="uri">https://www.osha.gov/oshstats/index.html</a></li>
+<li>Office of Federal Contract Compliance Programs (OFCCP) : <a href="https://www.dol.gov/ofccp/BTN/index.html" class="uri">https://www.dol.gov/ofccp/BTN/index.html</a></li>
+<li>Wage and Hour Division (WHD) : <a href="https://catalog.data.gov/dataset/whd-compliance-full" class="uri">https://catalog.data.gov/dataset/whd-compliance-full</a></li>
+</ol></li>
+<li>Department of State : <a href="https://www.state.gov/api/v1/docs/" class="uri">https://www.state.gov/api/v1/docs/</a>, <a href="https://www.state.gov/developer/" class="uri">https://www.state.gov/developer/</a>, <a href="https://www.state.gov/data/" class="uri">https://www.state.gov/data/</a>
+<ol style="list-style-type: lower-alpha">
+<li>Office of the U.S. Global AIDS Coordinator (OGAC) :<a href="https://www.pepfar.gov/priorities/data/index.htm" class="uri">https://www.pepfar.gov/priorities/data/index.htm</a>, <a href="https://www.hiv.gov/locator#api" class="uri">https://www.hiv.gov/locator#api</a></li>
+</ol></li>
+<li>Department of Transportation : <a href="https://www.transportation.gov/developer" class="uri">https://www.transportation.gov/developer</a>
+<ol style="list-style-type: lower-alpha">
+<li>Federal Aviation Administration (FAA) : <a href="https://www.faa.gov/data_research/" class="uri">https://www.faa.gov/data_research/</a></li>
+<li>Federal Highway Administration (FHWA) : <a href="https://infopave.fhwa.dot.gov/Data/DataSelection" class="uri">https://infopave.fhwa.dot.gov/Data/DataSelection</a></li>
+<li>Federal Motor Carrier Safety Administration (FMCSA) : <a href="https://dataqs.fmcsa.dot.gov" class="uri">https://dataqs.fmcsa.dot.gov</a></li>
+<li>Federal Railroad Administration (FRA) : <a href="https://safetydata.fra.dot.gov/officeofsafety/publicsite/downloaddbf.aspx" class="uri">https://safetydata.fra.dot.gov/officeofsafety/publicsite/downloaddbf.aspx</a></li>
+<li>Federal Transit Administration (FTA) : <a href="https://www.transit.dot.gov/ntd" class="uri">https://www.transit.dot.gov/ntd</a></li>
+<li>National Highway Traffic Safety Administration (NHTSA) : <a href="https://www.nhtsa.gov/research-data" class="uri">https://www.nhtsa.gov/research-data</a></li>
+<li>Pipeline and Hazardous Materials Safety Administration (PHMSA) : <a href="https://www.phmsa.dot.gov/data-and-statistics/pipeline/data-and-statistics-overview" class="uri">https://www.phmsa.dot.gov/data-and-statistics/pipeline/data-and-statistics-overview</a></li>
+</ol></li>
+<li>Department of Veterans Affairs : <a href="https://www.data.va.gov/" class="uri">https://www.data.va.gov/</a>, <a href="https://developer.va.gov/" class="uri">https://developer.va.gov/</a>
+<ol style="list-style-type: lower-alpha">
+<li>National Cemetery Administration (NCA) : <a href="https://gravelocator.cem.va.gov/" class="uri">https://gravelocator.cem.va.gov/</a></li>
+<li>VA Office of Inspector General (VAOIG) : <a href="https://www.va.gov/oig/publications/default.asp" class="uri">https://www.va.gov/oig/publications/default.asp</a></li>
+<li>Office of Policy and Planning (OPP) : <a href="https://www.va.gov/HEALTHPOLICYPLANNING/OSPA_prod.asp" class="uri">https://www.va.gov/HEALTHPOLICYPLANNING/OSPA_prod.asp</a></li>
+<li>Veterans Benefits Administration (VBA) : <a href="https://benefits.va.gov/benefits/" class="uri">https://benefits.va.gov/benefits/</a></li>
+<li>Veterans Health Administration (VHA) : <a href="https://www.publichealth.va.gov/studies-data.asp?_ga=2.43552869.1979850101.1542340457-1023302291.1542340457" class="uri">https://www.publichealth.va.gov/studies-data.asp?_ga=2.43552869.1979850101.1542340457-1023302291.1542340457</a>, <a href="https://www.va.gov/health/" class="uri">https://www.va.gov/health/</a></li>
+</ol></li>
+<li>Statistical Programs of Other Federal Agencies 57
+<ol style="list-style-type: lower-alpha">
+<li><del>Broadcasting Board of Governors (BBG)</del>
+United States Agency for Global Media (USAGM): <a href="https://www.usagm.gov/our-work/strategy-and-results/strategic-priorities/research-reports/" class="uri">https://www.usagm.gov/our-work/strategy-and-results/strategic-priorities/research-reports/</a></li>
+<li>Consumer Product Safety Commission (CPSC) : <a href="https://www.cpsc.gov/Recalls/CPSC-Recalls-Application-Program-Interface-API-Information" class="uri">https://www.cpsc.gov/Recalls/CPSC-Recalls-Application-Program-Interface-API-Information</a>, <a href="https://www.cpsc.gov/Newsroom/Downloadable-Data" class="uri">https://www.cpsc.gov/Newsroom/Downloadable-Data</a></li>
+<li>Corporation for National and Community Service’s (CNCS) : <a href="https://www.nationalservice.gov/impact-our-nation/evidence-exchange/basic-search" class="uri">https://www.nationalservice.gov/impact-our-nation/evidence-exchange/basic-search</a></li>
+<li>Environmental Protection Agency (EPA) : <a href="https://www.epa.gov/enviro/web-services" class="uri">https://www.epa.gov/enviro/web-services</a> (loads of APIs)</li>
+<li>Equal Employment Opportunity Commission (EEOC) : <a href="https://www.eeoc.gov/eeoc/statistics/index.cfm" class="uri">https://www.eeoc.gov/eeoc/statistics/index.cfm</a>,</li>
+<li>Institute of Museum and Library Services (IMLS) : <a href="https://www.imls.gov/research-tools/data-collection" class="uri">https://www.imls.gov/research-tools/data-collection</a></li>
+<li>National Aeronautics and Space Administration (NASA) : <a href="https://api.nasa.gov/" class="uri">https://api.nasa.gov/</a>, <a href="https://www.nasa.gov/data/" class="uri">https://www.nasa.gov/data/</a></li>
+<li>National Science Foundation (NSF) : <a href="https://www.nsf.gov/developer/" class="uri">https://www.nsf.gov/developer/</a></li>
+<li>Office of National Drug Control Policy (ONDCP) : <a href="https://www.whitehouse.gov/ondcp/" class="uri">https://www.whitehouse.gov/ondcp/</a> (I couldn’t find any data.)</li>
+<li>Small Business Administration (SBA) : <a href="https://www.sba.gov/about-sba/sba-performance/open-government/digital-sba/open-data/open-data-sources" class="uri">https://www.sba.gov/about-sba/sba-performance/open-government/digital-sba/open-data/open-data-sources</a></li>
+<li>Social Security Administration (SSA) : <a href="https://www.ssa.gov/developer/" class="uri">https://www.ssa.gov/developer/</a>, <a href="https://www.ssa.gov/data/" class="uri">https://www.ssa.gov/data/</a></li>
+<li>U.S. Agency for International Development (USAID) : <a href="https://www.usaid.gov/results-and-data/data-resources" class="uri">https://www.usaid.gov/results-and-data/data-resources</a>, <a href="https://www.usaid.gov/developer" class="uri">https://www.usaid.gov/developer</a></li>
+</ol></li>
+</ol>
+</div>
+<div id="what-did-i-learn" class="section level1">
+<h1>What did I learn?</h1>
+<ul>
+<li>Just Google “search term” + gov + data + api. You’ll probably find what you’re looking for.</li>
+<li>data.gov is not super useful unless you know exactly what you’re looking for. There’s just too much data!</li>
+<li>There are a surprising number of federal agencies and/or programs putting their work on Github. Pretty exciting!</li>
+<li>Get one API key for many .gov APIs: <a href="https://api.data.gov/" class="uri">https://api.data.gov/</a></li>
+<li>The Open Data Executive Order is pretty great: <a href="https://obamawhitehouse.archives.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government-" class="uri">https://obamawhitehouse.archives.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government-</a></li>
+</ul>
+</div>

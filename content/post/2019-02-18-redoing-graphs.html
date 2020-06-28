@@ -1,0 +1,282 @@
+---
+title: "Reconstructing a plot from the National Weather Service"
+date: 2019-02-20
+categories: blog, graphics, ggplot2, rstats, weather
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="a-no-so-great-graphic" class="section level2">
+<h2>A no-so-great graphic</h2>
+<p>It’s been snowing a lot lately in Iowa, so someone sent me <a href="https://twitter.com/NWSDesMoines/status/1097357137158828032">this tweet</a> about just how much snow we’ve been getting. Instead of getting shocked at the snow, I was shocked at the data visualization.</p>
+<figure>
+<center>
+<img src="/post/2019-02-18-redoing-graphs_files/nwsplot.png" alt="" width="80%"/>
+<figcaption>
+Source: <a href="https://twitter.com/NWSDesMoines" class="uri">https://twitter.com/NWSDesMoines</a>
+</figcaption>
+</center>
+</figure>
+<p>Why is this graphic not so great? Mostly, the double y-axis is very misleading. On 1/18, it looks like we got more snow in one day than we did all winter! So, with another snowy day again today, I decided to re-make it without the dual y-axes.</p>
+</div>
+<div id="making-a-better-graphic" class="section level2">
+<h2>Making a better graphic</h2>
+<p>The <a href="https://www.weather.gov/dmx/">National Weather Service</a> takes in data from <a href="https://www.noaa.gov/">NOAA</a>. So, I went searching for an R package for getting NOAA data into R. Luckily, <a href="https://ropensci.org/tutorials/rnoaa_tutorial/">rOpenSci</a> has one! It’s called <code>rnoaa</code>. What follows is how I got the data and re-created the graphic.</p>
+<p>First, attach the necessary packages.</p>
+<pre class="r"><code># install.packages(&quot;rnoaa&quot;)
+library(rnoaa)
+library(tidyverse)</code></pre>
+<p>Then, get an <a href="https://www.ncdc.noaa.gov/cdo-web/token">API token</a> for the NOAA APIs. (Mine took about 20 minutes to come through.) Once you have that, set it up in your R session with <code>options()</code>:</p>
+<pre class="r"><code>options(noaakey = &quot;YOUR_KEY&quot;)</code></pre>
+<p>Next, find the Des Moines weather station(s) that will have the recorded data we want (historical daily snowfall).</p>
+<pre class="r"><code># all stations with historical data
+stat &lt;- ghcnd_stations()</code></pre>
+<pre class="r"><code>head(stat)</code></pre>
+<pre><code>## # A tibble: 6 x 11
+##   id    latitude longitude elevation state name  gsn_flag wmo_id element
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  
+## 1 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA TMAX   
+## 2 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA TMIN   
+## 3 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA PRCP   
+## 4 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA SNOW   
+## 5 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA SNWD   
+## 6 ACW0…     17.1     -61.8      10.1 &lt;NA&gt;  ST J… &lt;NA&gt;         NA PGTM   
+## # … with 2 more variables: first_year &lt;dbl&gt;, last_year &lt;dbl&gt;</code></pre>
+<pre class="r"><code>stat %&gt;% filter(str_detect(name, &quot;MOINES&quot;)) %&gt;% # look for &quot;des moines&quot;
+  arrange(first_year, desc(last_year)) %&gt;% # make sure the years we want are covered (1981-2010, 2018-2019)
+  filter(element == &quot;SNOW&quot;) # we need snowfall data</code></pre>
+<pre><code>## # A tibble: 25 x 11
+##    id    latitude longitude elevation state name  gsn_flag wmo_id element
+##    &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  
+##  1 USC0…     36.8    -104.      2018. NM    DES … &lt;NA&gt;         NA SNOW   
+##  2 USC0…     36.8    -104.      1830  NM    DES … &lt;NA&gt;         NA SNOW   
+##  3 USW0…     41.5     -93.7      292. IA    DES … GSN       72546 SNOW   
+##  4 USC0…     41.6     -93.6      248. IA    DES … &lt;NA&gt;         NA SNOW   
+##  5 USC0…     41.6     -93.6      252. IA    DES … &lt;NA&gt;         NA SNOW   
+##  6 USC0…     41.7     -93.7      292. IA    DES … &lt;NA&gt;         NA SNOW   
+##  7 US1I…     41.6     -93.7      261. IA    DES … &lt;NA&gt;         NA SNOW   
+##  8 US1N…     36.6    -104.      1990  NM    DES … &lt;NA&gt;         NA SNOW   
+##  9 US1I…     41.6     -93.7      258. IA    DES … &lt;NA&gt;         NA SNOW   
+## 10 US1I…     41.6     -93.8      278  IA    WEST… &lt;NA&gt;         NA SNOW   
+## # … with 15 more rows, and 2 more variables: first_year &lt;dbl&gt;, last_year &lt;dbl&gt;</code></pre>
+<pre class="r"><code>dsm_info &lt;- stat %&gt;% filter(str_detect(name, &quot;MOINES&quot;)) %&gt;% 
+  arrange(first_year, desc(last_year)) %&gt;% 
+  filter(element == &quot;SNOW&quot;) %&gt;% slice(3) # 3rd row is actually DSM, IA, and has 70+ years of data
+dsm_id &lt;- dsm_info %&gt;% pull(id) # get the ID for this weather station</code></pre>
+<p>After a few failed attempts, and reading the <a href="https://cran.r-project.org/web/packages/rnoaa/rnoaa.pdf"><code>rnoaa</code> documentation</a>, I decided that the best data source would be the Global Historical Climatology Network daily weather data. These data are documented <a href="https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt">here</a>. The <code>ghcnd()</code> function gets all weather data for a particular station.</p>
+<pre class="r"><code>hist_dsm_data &lt;- ghcnd(dsm_id, refresh = TRUE)
+head(hist_dsm_data)</code></pre>
+<pre><code>## # A tibble: 6 x 128
+##   id     year month element VALUE1 MFLAG1 QFLAG1 SFLAG1 VALUE2 MFLAG2 QFLAG2
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;lgl&gt;  &lt;lgl&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;lgl&gt;  &lt;lgl&gt; 
+## 1 USW0…  1945     7 TMAX       217 NA     NA     X         244 NA     NA    
+## 2 USW0…  1945     7 TMIN       128 NA     NA     X         100 NA     NA    
+## 3 USW0…  1945     7 PRCP         0 NA     NA     X           0 NA     NA    
+## 4 USW0…  1945     7 SNOW         0 NA     NA     X           0 NA     NA    
+## 5 USW0…  1945     7 WT01        NA NA     NA     &lt;NA&gt;       NA NA     NA    
+## 6 USW0…  1945     7 WT03        NA NA     NA     &lt;NA&gt;       NA NA     NA    
+## # … with 117 more variables: SFLAG2 &lt;chr&gt;, VALUE3 &lt;dbl&gt;, MFLAG3 &lt;lgl&gt;,
+## #   QFLAG3 &lt;lgl&gt;, SFLAG3 &lt;chr&gt;, VALUE4 &lt;dbl&gt;, MFLAG4 &lt;lgl&gt;, QFLAG4 &lt;lgl&gt;,
+## #   SFLAG4 &lt;chr&gt;, VALUE5 &lt;dbl&gt;, MFLAG5 &lt;lgl&gt;, QFLAG5 &lt;lgl&gt;, SFLAG5 &lt;chr&gt;,
+## #   VALUE6 &lt;dbl&gt;, MFLAG6 &lt;lgl&gt;, QFLAG6 &lt;lgl&gt;, SFLAG6 &lt;chr&gt;, VALUE7 &lt;dbl&gt;,
+## #   MFLAG7 &lt;lgl&gt;, QFLAG7 &lt;lgl&gt;, SFLAG7 &lt;chr&gt;, VALUE8 &lt;dbl&gt;, MFLAG8 &lt;lgl&gt;,
+## #   QFLAG8 &lt;lgl&gt;, SFLAG8 &lt;chr&gt;, VALUE9 &lt;dbl&gt;, MFLAG9 &lt;lgl&gt;, QFLAG9 &lt;lgl&gt;,
+## #   SFLAG9 &lt;chr&gt;, VALUE10 &lt;dbl&gt;, MFLAG10 &lt;lgl&gt;, QFLAG10 &lt;lgl&gt;, SFLAG10 &lt;chr&gt;,
+## #   VALUE11 &lt;dbl&gt;, MFLAG11 &lt;lgl&gt;, QFLAG11 &lt;lgl&gt;, SFLAG11 &lt;chr&gt;, VALUE12 &lt;dbl&gt;,
+## #   MFLAG12 &lt;lgl&gt;, QFLAG12 &lt;lgl&gt;, SFLAG12 &lt;chr&gt;, VALUE13 &lt;dbl&gt;, MFLAG13 &lt;lgl&gt;,
+## #   QFLAG13 &lt;lgl&gt;, SFLAG13 &lt;chr&gt;, VALUE14 &lt;dbl&gt;, MFLAG14 &lt;lgl&gt;, QFLAG14 &lt;lgl&gt;,
+## #   SFLAG14 &lt;chr&gt;, VALUE15 &lt;dbl&gt;, MFLAG15 &lt;lgl&gt;, QFLAG15 &lt;lgl&gt;, SFLAG15 &lt;chr&gt;,
+## #   VALUE16 &lt;dbl&gt;, MFLAG16 &lt;lgl&gt;, QFLAG16 &lt;lgl&gt;, SFLAG16 &lt;chr&gt;, VALUE17 &lt;dbl&gt;,
+## #   MFLAG17 &lt;lgl&gt;, QFLAG17 &lt;lgl&gt;, SFLAG17 &lt;chr&gt;, VALUE18 &lt;dbl&gt;, MFLAG18 &lt;lgl&gt;,
+## #   QFLAG18 &lt;lgl&gt;, SFLAG18 &lt;chr&gt;, VALUE19 &lt;dbl&gt;, MFLAG19 &lt;chr&gt;, QFLAG19 &lt;lgl&gt;,
+## #   SFLAG19 &lt;chr&gt;, VALUE20 &lt;dbl&gt;, MFLAG20 &lt;lgl&gt;, QFLAG20 &lt;lgl&gt;, SFLAG20 &lt;chr&gt;,
+## #   VALUE21 &lt;dbl&gt;, MFLAG21 &lt;lgl&gt;, QFLAG21 &lt;lgl&gt;, SFLAG21 &lt;chr&gt;, VALUE22 &lt;dbl&gt;,
+## #   MFLAG22 &lt;lgl&gt;, QFLAG22 &lt;lgl&gt;, SFLAG22 &lt;chr&gt;, VALUE23 &lt;dbl&gt;, MFLAG23 &lt;lgl&gt;,
+## #   QFLAG23 &lt;lgl&gt;, SFLAG23 &lt;chr&gt;, VALUE24 &lt;dbl&gt;, MFLAG24 &lt;lgl&gt;, QFLAG24 &lt;lgl&gt;,
+## #   SFLAG24 &lt;chr&gt;, VALUE25 &lt;dbl&gt;, MFLAG25 &lt;lgl&gt;, QFLAG25 &lt;lgl&gt;, SFLAG25 &lt;chr&gt;,
+## #   VALUE26 &lt;dbl&gt;, MFLAG26 &lt;lgl&gt;, QFLAG26 &lt;lgl&gt;, SFLAG26 &lt;chr&gt;, VALUE27 &lt;dbl&gt;,
+## #   MFLAG27 &lt;lgl&gt;, QFLAG27 &lt;lgl&gt;, …</code></pre>
+<p>And now we corral the data for the visualization! We need (in inches):</p>
+<ol style="list-style-type: decimal">
+<li>Daily snowfall amounts for the current winter</li>
+<li>Historical average daily snowfall amounts for the 1981-2010 winters</li>
+<li>Cumulative amounts of 1 and 2.</li>
+</ol>
+<p>The data are very wide, with 3 columns for each day of the month.</p>
+<pre class="r"><code># make wide data long 
+wide_to_long &lt;- hist_dsm_data %&gt;% filter(element==&quot;SNOW&quot;) %&gt;%  # just want snowfall totals
+  select(year, month,starts_with(&quot;VALUE&quot;)) %&gt;% # per documentation, VALUE# indicates the day of the month 
+  gather(day, fall_mm, VALUE1:VALUE31) %&gt;% # go from wide to long
+  mutate(day = parse_number(day)) %&gt;% # convert day to a number
+  filter(!is.na(day)) # get rid of days that are missing/don&#39;t exist
+head(wide_to_long)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##    year month   day fall_mm
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1  1945     7     1       0
+## 2  1945     8     1       0
+## 3  1945     9     1       0
+## 4  1945    10     1       0
+## 5  1945    11     1       0
+## 6  1945    12     1       0</code></pre>
+<pre class="r"><code># get winter data
+winter_data &lt;- wide_to_long %&gt;% 
+  mutate(date = lubridate::make_date(year = year, month = month, day = day)) %&gt;% # create an actual date column
+  arrange(date) %&gt;% 
+  filter(!is.na(fall_mm)) %&gt;% # remove missings e.g. for February 30th 
+  filter(month %in% c(11, 12, 1, 2))# only want winter months
+head(winter_data)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##    year month   day fall_mm date      
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;    
+## 1  1945    11     1       0 1945-11-01
+## 2  1945    11     2       0 1945-11-02
+## 3  1945    11     3       0 1945-11-03
+## 4  1945    11     4       0 1945-11-04
+## 5  1945    11     5       0 1945-11-05
+## 6  1945    11     6       0 1945-11-06</code></pre>
+<pre class="r"><code># get cumulative totals
+snow_data_hist &lt;- winter_data %&gt;% 
+  mutate(year2 = ifelse(month %in% c(1,2), year-1, year)) %&gt;% # create another year variable to group by 
+  arrange(date) %&gt;%                                           
+  group_by(year2) %&gt;% # so we can get cumulative snowfall in a winter season, not in a calendar year.
+  mutate(fall_mm_cum = cumsum(fall_mm)) # compute cumulative snowfall 
+head(snow_data_hist)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+## # Groups:   year2 [1]
+##    year month   day fall_mm date       year2 fall_mm_cum
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1  1945    11     1       0 1945-11-01  1945           0
+## 2  1945    11     2       0 1945-11-02  1945           0
+## 3  1945    11     3       0 1945-11-03  1945           0
+## 4  1945    11     4       0 1945-11-04  1945           0
+## 5  1945    11     5       0 1945-11-05  1945           0
+## 6  1945    11     6       0 1945-11-06  1945           0</code></pre>
+<pre class="r"><code># get date ranges to match original plot
+avg_81_10 &lt;- filter(snow_data_hist, year2 %in% 1981:2010)  
+
+head(avg_81_10)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+## # Groups:   year2 [1]
+##    year month   day fall_mm date       year2 fall_mm_cum
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1  1981    11     1       0 1981-11-01  1981           0
+## 2  1981    11     2       0 1981-11-02  1981           0
+## 3  1981    11     3       0 1981-11-03  1981           0
+## 4  1981    11     4       0 1981-11-04  1981           0
+## 5  1981    11     5       0 1981-11-05  1981           0
+## 6  1981    11     6       0 1981-11-06  1981           0</code></pre>
+<pre class="r"><code># compute daily averages over the 30 year period
+snow_data_avg &lt;- avg_81_10 %&gt;% ungroup() %&gt;% group_by(day, month) %&gt;% 
+  mutate(avg_c_sum = mean(fall_mm_cum), avg_day_mm = mean(fall_mm)) 
+
+# make sure date ranges match data available for 2019
+snow_data_avg2 &lt;- snow_data_avg %&gt;% select(month, day, avg_c_sum, avg_day_mm) %&gt;% 
+  unique() %&gt;% filter(month != 2 | !(month == 2 &amp; day &gt;16))
+
+thisyear &lt;- filter(snow_data_hist, year2 == 2018)
+
+head(thisyear) </code></pre>
+<pre><code>## # A tibble: 6 x 7
+## # Groups:   year2 [1]
+##    year month   day fall_mm date       year2 fall_mm_cum
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1  2018    11     1       0 2018-11-01  2018           0
+## 2  2018    11     2       0 2018-11-02  2018           0
+## 3  2018    11     3       0 2018-11-03  2018           0
+## 4  2018    11     4       0 2018-11-04  2018           0
+## 5  2018    11     5       0 2018-11-05  2018           0
+## 6  2018    11     6       0 2018-11-06  2018           0</code></pre>
+<pre class="r"><code>thisyear %&gt;% left_join(snow_data_avg2) %&gt;% head() # combine historical data with this year&#39;s data</code></pre>
+<pre><code>## # A tibble: 6 x 9
+## # Groups:   year2 [1]
+##    year month   day fall_mm date       year2 fall_mm_cum avg_c_sum avg_day_mm
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1  2018    11     1       0 2018-11-01  2018           0      1.53      1.53 
+## 2  2018    11     2       0 2018-11-02  2018           0      3         1.47 
+## 3  2018    11     3       0 2018-11-03  2018           0      3.33      0.333
+## 4  2018    11     4       0 2018-11-04  2018           0      3.5       0.167
+## 5  2018    11     5       0 2018-11-05  2018           0      5.37      1.87 
+## 6  2018    11     6       0 2018-11-06  2018           0      9.37      4</code></pre>
+<p>Finally, re-do the plot with a single y-axis. I also added daily average snowfall in red to compare the daily totals with this year’s daily snowfall.</p>
+<pre class="r"><code>p &lt;- thisyear %&gt;% left_join(snow_data_avg2) %&gt;%
+  ggplot(aes(x = date)) + 
+  geom_line(aes(y = avg_c_sum*0.0393701, color = &quot;1981-2010 Normal Snowfall&quot;), size = 1.5)  + # multiply by 0.0393701 to convert mm to in
+  geom_line(aes(y = fall_mm_cum*0.0393701, color = &quot;2018-19 Total Snowfall&quot;), size = 1.5) + 
+  geom_segment(aes(x = date, xend = date, y = 0, yend = fall_mm*0.0393701, color =&quot;2018-19 Daily Snowfall&quot;), size = 1.5) + 
+  geom_segment(aes(x = date, xend = date, y = 0, yend = avg_day_mm*0.0393701, color =&quot;1981-2010 Average Daily Snowfall&quot;), size = 1.5, alpha = .7) + 
+  labs(x = &quot;Date&quot;, y = &quot;Snowfall (in)&quot;, title = &quot;2018-19 Snowfall in Des Moines&quot;) + 
+  scale_x_date(date_breaks = &quot;1 weeks&quot;, date_labels = &quot;%m/%d&quot;) + 
+  scale_y_continuous(breaks = 0:7*5, position = &quot;right&quot;) +  
+  theme_bw() + 
+  scale_color_manual(name = &quot;&quot;, values = c(&quot;2018-19 Daily Snowfall&quot; = &quot;#00B0F0&quot;,
+                                           &quot;1981-2010 Normal Snowfall&quot; = &quot;#00B050&quot;,
+                                           &quot;2018-19 Total Snowfall&quot; = &quot;navy&quot;,
+                                           &quot;1981-2010 Average Daily Snowfall&quot; = &quot;#71e8a7&quot;), 
+                     guide = guide_legend(nrow = 2)) + 
+  theme(legend.position = &quot;bottom&quot;, plot.title = element_text(face = &quot;bold&quot;, hjust = .5)) 
+p</code></pre>
+<p><img src="/post/2019-02-18-redoing-graphs_files/figure-html/redoplot-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>So, what do you think?</p>
+<p><img src="/post/2019-02-18-redoing-graphs_files/nwsplot.png" alt="" width="80%"/></p>
+<p>or</p>
+<p><img src="/post/2019-02-18-redoing-graphs_files/figure-html/sidebyside-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div id="addendum" class="section level3">
+<h3>Addendum</h3>
+<p>Today, I learned different having a different <code>geom_*</code>s in each facet panel is a thing!</p>
+<blockquote class="twitter-tweet" data-partner="tweetdeck">
+<p lang="en" dir="ltr">
+I’d wonder about putting the daily snow fall in a different facet and using scales = “free” (different geoms in different facets is a cool trick that I don’t think enough people know about)
+</p>
+— Hadley Wickham (<span class="citation">@hadleywickham</span>) <a href="https://twitter.com/hadleywickham/status/1098581656997425154?ref_src=twsrc%5Etfw">February 21, 2019</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>My solution. Thanks to <a href="https://stackoverflow.com/questions/7903972/can-you-specify-different-geoms-for-different-facets-in-a-ggplot">this</a> StackOverflow question.</p>
+<pre class="r"><code>snowdata &lt;- thisyear %&gt;% left_join(snow_data_avg2)
+snowdata2 &lt;- snowdata %&gt;% 
+  gather(type, mm_snow, c(fall_mm, fall_mm_cum:avg_day_mm))
+
+snowdata2 &lt;- snowdata2 %&gt;% 
+  mutate(type2 = recode(type, fall_mm = &quot;Daily&quot;, fall_mm_cum = &quot;Cumulative Snowfall&quot;, 
+                        avg_c_sum = &quot;Cumulative Snowfall&quot;, avg_day_mm = &quot;Daily&quot;),
+         in_snow = mm_snow * 0.0393701)
+head(snowdata2)</code></pre>
+<pre><code>## # A tibble: 6 x 9
+## # Groups:   year2 [1]
+##    year month   day date       year2 type    mm_snow type2 in_snow
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1  2018    11     1 2018-11-01  2018 fall_mm       0 Daily       0
+## 2  2018    11     2 2018-11-02  2018 fall_mm       0 Daily       0
+## 3  2018    11     3 2018-11-03  2018 fall_mm       0 Daily       0
+## 4  2018    11     4 2018-11-04  2018 fall_mm       0 Daily       0
+## 5  2018    11     5 2018-11-05  2018 fall_mm       0 Daily       0
+## 6  2018    11     6 2018-11-06  2018 fall_mm       0 Daily       0</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_line(data = snowdata2 %&gt;% filter(type2 == &quot;Cumulative Snowfall&quot;), aes(x = date, y = in_snow, color = type), size = 1.5) + 
+  geom_bar(data = snowdata2 %&gt;% filter(type2 == &quot;Daily&quot;), aes(x = date, weight = in_snow, fill = type), size = 1.5, position = &quot;dodge&quot;)  + 
+  scale_color_brewer(palette = &quot;Paired&quot;) + 
+  scale_fill_brewer(name = &quot;&quot;, palette = &quot;Paired&quot;, labels = c(&quot;1981-2010 Average Snowfall&quot;, &quot;2018-2019 Snowfall&quot;)) + 
+  scale_x_date(name = &quot;Date (winter 2018-19)&quot;, breaks = &quot;1 week&quot;, date_labels = &quot;%m/%d&quot;) + 
+  labs(y= &quot;Snowfall in Inches&quot;, title = &quot;2018-19 Snowfall in Des Moines&quot;) + 
+  guides(color = &quot;none&quot;) + 
+  theme_bw() + 
+  theme(legend.position = &quot;bottom&quot;, plot.title = element_text(face = &quot;bold&quot;, hjust = .5), aspect.ratio = .4, 
+        axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  facet_wrap(~type2, nrow = 1, scales = &quot;free_y&quot; )</code></pre>
+<p><img src="/post/2019-02-18-redoing-graphs_files/figure-html/facetgeoms-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot() +
+  geom_line(data = snowdata2 %&gt;% filter(type2 == &quot;Cumulative Snowfall&quot;), aes(x = date, y = in_snow, color = type), size = 1.5) + 
+  geom_bar(data = snowdata2 %&gt;% filter(type2 == &quot;Daily&quot;), aes(x = date, weight = in_snow, fill = type), size = 1.5, position = &quot;dodge&quot;)  + 
+  scale_color_brewer(palette = &quot;Paired&quot;) + 
+  scale_fill_brewer(name = &quot;&quot;, palette = &quot;Paired&quot;, labels = c(&quot;1981-2010 Average Snowfall&quot;, &quot;2018-2019 Snowfall&quot;)) + 
+  scale_x_date(name = &quot;Date (winter 2018-19)&quot;, breaks = &quot;1 week&quot;, date_labels = &quot;%m/%d&quot;) + 
+  labs(y= &quot;Snowfall in Inches&quot;, title = &quot;2018-19 Snowfall in Des Moines&quot;) + 
+  guides(color = &quot;none&quot;) + 
+  theme_bw() + 
+  theme(legend.position = &quot;bottom&quot;, plot.title = element_text(face = &quot;bold&quot;, hjust = .5), 
+        axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  facet_grid(type2~., space = &quot;free&quot;, scales = &quot;free_y&quot;)</code></pre>
+<p><img src="/post/2019-02-18-redoing-graphs_files/figure-html/facetgeoms-2.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>

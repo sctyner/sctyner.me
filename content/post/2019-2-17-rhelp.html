@@ -1,0 +1,118 @@
+---
+title: "Getting help in R: do as I say, not as I've done"
+date: 2019-12-17
+categories: rstats, help
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<blockquote>
+<p>“Ever tried. Ever failed. No matter. Try again. Fail again. Fail better.” - Samuel Beckett
+<!-- break --></p>
+</blockquote>
+<blockquote>
+<p>“Try not. Do. Or do not.” - <a href="https://youtu.be/BQ4yd2W50No">Yoda</a></p>
+</blockquote>
+<div id="why" class="section level2">
+<h2>Why?</h2>
+<p>As <a href="https://twitter.com/sctyner/status/1195425981781151745?s=20">promised on Twitter</a>, this is my list of tips for getting help in R. My Twitter thread of tips was inspired by something I witnessed at the end of a webinar. The webinar presenter is the author of many popular R packages, and so the webinar drew a very large audience (hundreds of people). The webinar was great, and the host was effusive afterwards. Unfortunately, the praise went a bit off the rails, and included the host telling attendees that the presenter is “always on GitHub” and if they have additional questions to “post issues on the [*****] package repo” or email the presenter to get them answered. The host, who identified themselves as a student, obviously did not know any better, but as an experienced R user, code breaker,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and question asker, the host’s comments set off alarm bells in my head.</p>
+<div id="section" class="section level3">
+<h3>🔔 🔔 🔔</h3>
+<p>Why did this comment cause this reaction? Well, in my experience, when getting help in R, your <em>absolute last resort</em> should be to directly interact with the package author. Maintaining an R package takes a lot of work, and most R package writers maintain their package(s) in their spare time. They do not have time to answer every question.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Save yourself and R package authors time by using these tips to answer your own questions.</p>
+<!--
+Also in my experience, if you go right for the package author, there are two likely outcomes:  
+
+1. They will ignore or not see your question.  
+2. They will reply to you snarkily. (This is especially likely if the package is very popular, the author happens to be having a bad day, and/or they have already seen your question 100 times from others.)  
+
+Note how neither of these outcomes involve getting your question answered. 
+
+In the best case, you're left with nothing, and in the worst case you feel discouraged. Oftentimes, snark goes too far, and the package author is in the wrong. Other times, however, consider the perspective of the author: they have spent hours and hours developing this software, only to be bombarded by simple questions that could be answered by reading the documentation more closely. 
+
+I know how I feel when I sense that my time is being wasted, and I am often tempted to snark. Package authors are humans too, so it makes sense that they would lash out when their time is being wasted and their work is undervalued.^[Writing documentation is coding, too! If you don't read it, you're ignoring the authors' hard work.] 
+
+In addition, electronic communication can be read in different ways by different people, and the meaning is not always clear.^[My initial tweet about this was very snarky, and I came off a lot angrier than I was. As I said above, the well-intentioned host's comments set off alarm bells for me. The anger that came across was more directed at myself than the webinar host, leftover from previous incidents where I was "called out" for asking bad questions online.] Maybe the author didn't intend to be snarky, or maybe they did but it came off harsher than necessary. Either way, you can't know what they were thinking. Avoid this negativity and ambiguity entirely, and save yourself and R package authors time by using these tips to answer your own questions.  
+-->
+</div>
+<div id="diy" class="section level3">
+<h3>DIY</h3>
+<p>These tips are also important for becoming a more self-sufficient R user. Many people asking R questions are students of some kind. When I was a student, I was surrounded by people who were way better than me at this stuff, and I often went to them for help. Now that I’m not sharing office space with them, I have to fend more or less for myself. In my office, I’m now the expert in a lot of R things, so I can’t look to anyone else for help. If I have an error, I can’t just bring my computer to <a href="https://erichare.me/">Eric</a> and say “WTF” like I could when we were in school. By becoming self-sufficient, you are making an investment in your future. It’s harder than just asking [insert your favorite R package author here] what the answer is, but it’s better for you.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+</div>
+</div>
+<div id="the-tips" class="section level2">
+<h2>The Tips</h2>
+<p>These tips are presented in a different order than in my Twitter thread, being optimized based on more careful thought and feedback from others in the thread. If you have an R question or problem, try these tips in the order presented to find your solution.</p>
+<div id="read-the-documentation" class="section level3">
+<h3>1. Read the documentation 📖</h3>
+<p>Did you forget an argument? Does something have to be a character that is a factor? If a function is giving you a weird error, read the documentation! If you don’t have the patience, run the examples in the documentation line-by-line first, then try to apply it to your context. R folks get famously testy online when you ask a question that is answered in the help files or vignettes.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+</div>
+<div id="google-the-error" class="section level3">
+<h3>2. Google the error 🔍</h3>
+<p>After reading the documentation, you should Google the error message. In your search, make sure you remove any object or function names that are unique to your environment. By using only the relevant words from the error message, you’re more likely to get a result on StackOverflow or GitHub where your problem has already been solved.</p>
+<p><a href="https://twitter.com/JennyBryan/status/1199128468622999553?s=20">Here</a> is a common example: <code>Error in my_df$my_col: object of type closure is not subsettable</code>. Remove the reference to your data and google away.</p>
+</div>
+<div id="search-smarter-not-harder" class="section level3">
+<h3>3. Search smarter, not harder 🧠</h3>
+<p>Make your search smarter. Use <a href="https://www.mcgill.ca/caps/files/caps/gcs2014_linkedinbooleansearchtips.pdf">boolean searches</a> on Google, GitHub, and/or StackOverflow with a few keywords. For example, say you have a question about plot margins and ggplot2. You might try typing <code>ggplot2 AND margins</code> into Google, or <code>[ggplot2] margin</code> in StackOverflow. For GitHub, go to the ggplot2 <a href="https://github.com/tidyverse/ggplot2/issues">issues</a> and search for <code>is:issue margin</code>.</p>
+</div>
+<div id="burn-it-all-down" class="section level3">
+<h3>4. Burn it all down 🔥</h3>
+<p>In the original thread, this was lower on the list at #8. That’s probably because it just didn’t occur to me earlier. I am pretty much constantly “burning it all down”: I <a href="https://twitter.com/robinson_es/status/1202022415422967808">never save my workspace</a>, and every day and every switch between R projects begins with an empty workspace and no packages attached. By starting fresh every time, you are forcing yourself into <a href="https://twitter.com/hadleywickham/status/1032665959734108160?s=20">better reproducibility</a>. If you are afraid to clear your workspace out, that is a sign you need to be writing data to file more. (See e.g. <a href="https://readr.tidyverse.org/reference/read_rds.html"><code>readr::write_rds</code></a>.) Before diving deeper into what’s going wrong for you, start over. This will often solve your problem.</p>
+</div>
+<div id="make-a-reprex" class="section level3">
+<h3>5. Make a “reprex” 🔁</h3>
+<p>This step involves making the problem as small as possible, which is known as making a “minimally reproducible example” or a “reprex.” In making a reprex, you should isolate what is happening, using as little information as possible. So if it’s a ggplot question, for example, make a toy data frame with the minimum number of rows and columns to reproduce the behavior. For more complete information on making a reprex, watch <a href="https://resources.rstudio.com/webinars/help-me-help-you-creating-reproducible-examples-jenny-bryan">Jenny Bryan’s webinar</a> on the <a href="https://reprex.tidyverse.org/"><code>reprex</code></a> package.
+In my experience, if I’ve reached the point of making a reprex, creating one will help me figure out what’s going on and solve the problem without going elsewhere at least 75% of the time.</p>
+</div>
+<div id="ask-twitter-with-rstats" class="section level3">
+<h3>6. Ask Twitter with #rstats 🐦</h3>
+<p>After combing the web and making a reprex, I usually turn to twitter if I haven’t found an answer yet. Include the hashtag #rstats in your tweet so that it will be seen by more people in the R community. Twitter is best for open-ended or big picture questions that might not have a neat answer or may be hard to google. <a href="https://twitter.com/sctyner/status/1099081161064763393?s=20">Here’s</a> an example when I got some help from the Twitterverse. If your question requires a lot of code, make a GitHub gist containing your reprex and link to it in the tweet.</p>
+</div>
+<div id="phone-a-friend-or-colleague" class="section level3">
+<h3>7. Phone a friend (or colleague) ☎️</h3>
+<p>Ask a colleague or a friend. By this point, your question will be very well-defined and if they know the answer and have a couple minutes, they’ll be able to get it to you quickly.</p>
+</div>
+<div id="sleep-on-it" class="section level3">
+<h3>8. Sleep on it 😴</h3>
+<p>Sleep on it. This is especially helpful when you’ve been battling with an error for many hours or late into the night. Just stop. Then, try again the next day. If it’s not bedtime, find another project to work on that works a different part of your brain, like chores, reading a paper, or taking a walk. Let your subconscious mind work on it for a while, and you’ll find a solution when you return to the problem.</p>
+</div>
+<div id="ask-your-question-on-an-online-community" class="section level3">
+<h3>9. Ask your question on an online community 💬</h3>
+<p>Ask a question on StackOverflow or in RStudio community. Don’t forget to use the reprex package to help others help you. If others can make the weird behavior/error happen on their systems, then they can actually help you! While you wait for an answer, repeat some previous steps in the meantime to see if you can answer your own question. (If you can answer, make sure to post the solution for others in the future!) <strong>Wait at least 24 hours before going to the next step.</strong></p>
+</div>
+<div id="file-an-issue-on-github" class="section level3">
+<h3>10. File an issue on GitHub 🙋</h3>
+<p>If you still haven’t figured it out, this is when you file a GitHub issue, and include the reprex with it. These days, many packages have an issue template. Make sure you follow it! Maybe repeat some previous steps in the meantime to see if you can answer your own question. <strong>Be patient.</strong> Expect to wait a while for an answer if the the package repo hasn’t been updated lately or if it’s incredibly popular.</p>
+</div>
+</div>
+<div id="the-end" class="section level2">
+<h2>The End?</h2>
+<p>The vast majority of the time, when I follow these steps in this order, I will get an answer to my question. I would say that since I’ve started thinking about getting R help in this way, 90% of my questions are answered after I’ve done step 5, and 98% are answered after I’ve done step 8. <strong>If you’ve made it all the way through #10, be prepared for the solution to be, “This cannot be done.”</strong> When this is the case, the more generous package maintainers will give you a reason why it is not possible, and may even invite you to implement the fix yourself and submit a pull request.</p>
+<p>At this point, you’re on your own again. But luckily, you’ve developed some self-sufficiency and can begin hacking away if it’s an interesting and/or important enough problem to you. If not, just move on.</p>
+<hr />
+<!--
+Tweet text: 
+My Top 10 Tips for Getting Help in R:
+TL;DR:
+📖Read the documentation
+🔍Google the error
+🧠Search smarter, not harder
+🔥Burn it all down
+🔁Make a reprex
+🐦Ask Twitter with #rstats
+☎️Phone a friend
+😴Sleep on it
+💬Ask your question on an online community
+🙋File an issue on GitHub
+-->
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Code breaker in the “OMG why doesn’t this code work” sense, not the <a href="https://www.smithsonianmag.com/history/how-women-codebreakers-wwii-helped-win-war-180965058/">kick-ass WWII female codebreakers</a> way.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>I have one R package on CRAN and it’s very hard to motivate myself to work on it, since it has nothing to do with my work anymore and good alternatives exist.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>I suspect my belief in self-sufficiency is also one of the reasons an intro stat student of mine once said I was “the worst professor ever of any class in high school or college.” (Hey, at least they gave me a degree &amp; a promotion.) My students did not like it when I answered their questions with questions, <a href="https://vimeo.com/53975076">Ron Swanson style</a>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Writing documentation is coding, too! If you don’t read it, you’re ignoring the authors’ hard work.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

@@ -1,0 +1,266 @@
+---
+title: "Forensic Glass Analysis - Part I"
+date: 2018-08-15
+categories: blog, rstats, forensics, glass
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="what-is-the-forensic-problem-at-hand" class="section level2">
+<h2>What is the forensic problem at hand?</h2>
+<p>It is easy to imagine a crime scene with glass fragments: a burglar may have broken a glass door, a glass bottle could have been used in an assault, or a domestic disturbance may involve throwing something through a window. There are many ways that glass can break and that glass fragments can be transferred. The study of glass fragments is important to forensic science because the glass broken at the scene can transfer to the perpetrator’s shoes, clothing, or even their hair [1].</p>
+<p>Crime scene investigators collect fragments of glass at the scene as a part of the evidence collection process and the fragments are sent to the forensics lab for processing. Similarly, evidence such as clothing and shoes are collected from a suspect, and if glass is found, the fragments are compared to the fragments found at the scene. We refer to the relevant measurements/observations of the crime scene glass as <span class="math inline">\(G_C\)</span> for Glass from the Crime scene. In cases like these, some glass fragments are found on the suspect’s clothing or perhaps in the suspect’s vehicle. The amount of glass found on the suspect is usally much smaller than the amount available from the scene for testing and analysis. Thus, after the relevant measurements/observations from the suspect, <span class="math inline">\(G_S\)</span>, are made, the glass that was found on the suspect is often destroyed. The fundamental forensic task at hand is to determine if the source of the glass found on the suspect is the window from the crime scene or another, unknown source. This is generally broadened and formalized as a pair of competing hypotheses written in terms of the measurements on the two glass sources:</p>
+<p><span class="math display">\[
+\begin{align*}
+H_0 &amp; : \quad G_C \text{ and } G_S \text{ come from the same source} \\
+H_1 &amp; : \quad G_C \text{ and } G_S \text{ come from different sources}  
+\end{align*}
+\]</span></p>
+<p>The forensic expert analyzes samples from the two sources, <span class="math inline">\(C\)</span> and <span class="math inline">\(S\)</span> for crime scene and suspect, respectively, obtaining the measurements <span class="math inline">\(G_C\)</span> and <span class="math inline">\(G_S\)</span>. Then, the expert makes a comparison following a pre-defined methodology to determine whether or not <span class="math inline">\(G_C\)</span> and <span class="math inline">\(G_S\)</span> come from the same source.</p>
+<p>This type of problem fits into the “source level” type of hypothesis. The goal of the source level hypothesis is to determine if the “suspect” is the source of the “evidence” (e.g. the glass found on the suspect is from the same source as the glass at the scene). Typically, this is the “lowest level” of hypothesis in a crime investigation. The other levels are “activity level” and “offence level”. Activity level hypotheses concern whether the “suspect” created or caused the “evidence” (e.g. the suspect broke the window at the scene). Offense level hypotheses go one step further, determining whether or not the “suspect” committed the “crime” (e.g. the suspect committed the robbery). For more on the different types of hypotheses, see Cook et al. [2]</p>
+<div id="glass-element-analysis" class="section level3">
+<h3>Glass element analysis</h3>
+<p>Float glass is made from a molten mixture of silica sand, soda ash (sodium carbonate [<span class="math inline">\(Na_2 CO_3\)</span>]), limestone, dolomite [<span class="math inline">\(CaMg(CO_3)_2\)</span>], salt cake (sodium sulfate [<span class="math inline">\(Na_2SO_4\)</span>]), waste glass from previous runs, and other materials. The amounts of these compunds in glass are known to vary by manufacturer and how much material is available at the time. The materials are melted and mixed together, then the hot liquid material is poured over a pool of molten tin to begin cooling. The very large sheet of glass is cooled, scored, and cut into the appropriate size panes. For more on the making of float glass, see <a href="https://youtu.be/OVokYKqWRZE">this video</a> or <a href="https://en.wikipedia.org/wiki/Float_glass#cite_note-10">this Wikipedia page</a>. The forensic process assumes that each individual pane cut from the football-fields-long piece of glass can be distiguished from the others.</p>
+<p>There is a standard method to follow for glass element analysis according to ASTM international, an international standards organization [3]. In order to obtain an elemental composition of a piece of glass, the fragment must first be “digested” in an acid mixture, then dried and reconstituted in acid. To measure the glass-acid mixture, an inductively coupled plasma mass spectrometer (ICP-MS) should be used to obtain measurements of elements in mg/kg (milligram of element per kilogram of glass), which is equivalent to ppm (parts per million). Blanks must also be measured in order to properly calibrate the results, as well as two or more standard reference glasses of known elemental composition. At least three measurements of each glass source (<span class="math inline">\(C\)</span>, <span class="math inline">\(S\)</span>, and the standards) must be taken with the ICP-MS and the element concentrations recorded from all three measurements. As many as 40 elements can be detected in a glass sample using this ICP-MS method.</p>
+</div>
+</div>
+<div id="data-sources" class="section level2">
+<h2>Data Sources</h2>
+<p>CSAFE researchers aquired some float glass data from two different manufacturers, call them <em>Manufacturer A</em> and <em>Manufacturer B</em>. There were 31 panes of glass from <em>A</em> and 17 panes of glass from <em>B</em>, for a total of 48 panes of glass. Each pane was shattered and 24 pieces were collected from each pane. Each piece was subsequently measured using the ICP-MS methodology five times for 21 of the 24 fragments and 20 times for the remaining three fragments. For each measurement, 40 element concentrations (in parts per million) were recorded, and 18 are used for “matching” purposes, as is done in Weis et al [4]. The 18 elements are: Li (Lithium), Na (Sodium), Mg (Magnesium), Al (Aluminum), K (Potassium), Ca (Calcium), Ti (Titanium), Mn (Manganese), Fe (Iron), Rb (Rubidium), Sr (Strontium), Zr (Zirconium), Ba (Barium), La (Lanthanum), Ce (Cerium), Nd (Neodymium), Hf (Hafnium), and Pb (Lead).</p>
+<p>Additional data of this type from Weis et al (2011) are published in the literature [4]. There is also a very common set of 214 observations on different types of glass that are included in several <a href="https://www.r-project.org/"><code>R</code></a> packages, including <a href="https://cran.r-project.org/web/packages/MASS/MASS.pdf"><code>MASS</code></a> and <a href="https://cran.r-project.org/web/packages/mlbench/mlbench.pdf"><code>mlbench</code></a>, and is originally from Venables &amp; Ripley (2002) [5]. Each observation contains the type of glass, its refractive index, and measurements on 8 elements: Na, Mg, Al, Si (Silicon), K, Ca, Ba, and Fe measured in weight percent in corresponding oxide. The different observations can be categorized into the following types of glass:</p>
+<ul>
+<li>163 Window glass (building windows and vehicle windows)
+<ul>
+<li>87 float processed
+<ul>
+<li>70 building windows</li>
+<li>17 vehicle windows</li>
+</ul></li>
+<li>76 non-float processed
+<ul>
+<li>76 vehicle windows</li>
+</ul></li>
+</ul></li>
+<li>51 Non-window glass
+<ul>
+<li>13 containers</li>
+<li>9 tableware</li>
+<li>29 headlamps</li>
+</ul></li>
+</ul>
+<div id="examining-glass-data" class="section level3">
+<h3>Examining Glass Data</h3>
+<p><strong>MASS data:</strong> First, let’s look at the 214 glass observations from the <code>MASS</code> package:</p>
+<pre class="r"><code>library(tidyverse)
+glass1 &lt;- MASS::fgl
+glass1 &lt;- glass1 %&gt;% gather(variable, value, RI:Fe)
+
+
+ggplot(data = glass1) + 
+  geom_density(aes(x = value,fill = type), alpha = .5) + 
+  facet_wrap(~variable, scales=&quot;free&quot;)</code></pre>
+<p><img src="/post/2018-08-15-forensic-glass-i_files/figure-html/commondat-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>In this dataset, it is difficult to see distinctions between the six different types of glass. The distributions of measurements for each type of glass and each element measurement overlap significantly. In the Mg measurements, there appear to be two distinct groups: <code>WinF</code>, <code>WinNF</code>, and <code>Veh</code> in one group, and <code>Con</code>, <code>Tabl</code>, and <code>Head</code> glass in another group. The first group has higher values of Mg and has less variability in Mg values than the second group.</p>
+<p>We can also look at numerical summaries of the data. Below, each entry is (mean, sd) of the measurements on the variable.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">type</th>
+<th align="left">Al</th>
+<th align="left">Ba</th>
+<th align="left">Ca</th>
+<th align="left">Fe</th>
+<th align="left">K</th>
+<th align="left">Mg</th>
+<th align="left">Na</th>
+<th align="left">RI</th>
+<th align="left">Si</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">WinF</td>
+<td align="left">(1.16,0.27)</td>
+<td align="left">(0.01,0.08)</td>
+<td align="left">(8.8,0.57)</td>
+<td align="left">(0.06,0.09)</td>
+<td align="left">(0.45,0.21)</td>
+<td align="left">(3.55,0.25)</td>
+<td align="left">(13.24,0.5)</td>
+<td align="left">(0.72,2.27)</td>
+<td align="left">(72.62,0.57)</td>
+</tr>
+<tr class="even">
+<td align="center">WinNF</td>
+<td align="left">(1.41,0.32)</td>
+<td align="left">(0.05,0.36)</td>
+<td align="left">(9.07,1.92)</td>
+<td align="left">(0.08,0.11)</td>
+<td align="left">(0.52,0.21)</td>
+<td align="left">(3,1.22)</td>
+<td align="left">(13.11,0.66)</td>
+<td align="left">(0.62,3.8)</td>
+<td align="left">(72.6,0.72)</td>
+</tr>
+<tr class="odd">
+<td align="center">Veh</td>
+<td align="left">(1.2,0.35)</td>
+<td align="left">(0.01,0.04)</td>
+<td align="left">(8.78,0.38)</td>
+<td align="left">(0.06,0.11)</td>
+<td align="left">(0.41,0.23)</td>
+<td align="left">(3.54,0.16)</td>
+<td align="left">(13.44,0.51)</td>
+<td align="left">(-0.04,1.92)</td>
+<td align="left">(72.4,0.51)</td>
+</tr>
+<tr class="even">
+<td align="center">Con</td>
+<td align="left">(2.03,0.69)</td>
+<td align="left">(0.19,0.61)</td>
+<td align="left">(10.12,2.18)</td>
+<td align="left">(0.06,0.16)</td>
+<td align="left">(1.47,2.14)</td>
+<td align="left">(0.77,1)</td>
+<td align="left">(12.83,0.78)</td>
+<td align="left">(0.93,3.35)</td>
+<td align="left">(72.37,1.28)</td>
+</tr>
+<tr class="odd">
+<td align="center">Tabl</td>
+<td align="left">(1.37,0.57)</td>
+<td align="left">(0,0)</td>
+<td align="left">(9.36,1.45)</td>
+<td align="left">(0,0)</td>
+<td align="left">(0,0)</td>
+<td align="left">(1.31,1.1)</td>
+<td align="left">(14.65,1.08)</td>
+<td align="left">(-0.54,3.12)</td>
+<td align="left">(73.21,1.08)</td>
+</tr>
+<tr class="even">
+<td align="center">Head</td>
+<td align="left">(2.12,0.44)</td>
+<td align="left">(1.04,0.67)</td>
+<td align="left">(8.49,0.97)</td>
+<td align="left">(0.01,0.03)</td>
+<td align="left">(0.33,0.67)</td>
+<td align="left">(0.54,1.12)</td>
+<td align="left">(14.44,0.69)</td>
+<td align="left">(-0.88,2.55)</td>
+<td align="left">(72.97,0.94)</td>
+</tr>
+</tbody>
+</table>
+<p>It’s clear from this table that only tableware glass lacks Ba, Fe, and K. Furthermore, we may be able distinguish between container glass and headlamp glass because container tends to have higher levels of K and lower levels of Ba than headlamp glass. It still looks like <code>WinF</code>, <code>WinNF</code> and <code>Veh</code> glass are not easily distinguishable based on the data in this table.</p>
+<p><strong>CSAFE data:</strong> Next, we look at the data collected for CSAFE. I take a look and 4 panes, 2 from <em>Manufacturer A</em>, and 2 from <em>Manufacturer B</em>. There are more elements available on this data than on the previous data, and they are measured on a different scale (ppm). In the figure below, can you determine which 2 panes came from <em>A</em> and which 2 came from <em>B</em>?</p>
+<pre class="r"><code>glass &lt;- read_csv(&quot;dat/glass_sample.csv&quot;)
+glass2 &lt;- glass %&gt;% gather(variable, value, Li7:Pb208)
+
+ggplot(data = glass2) + 
+  geom_density(aes(x = value,fill = pane), alpha = .5) + 
+  facet_wrap(~variable, scales=&quot;free&quot;) + 
+  scale_fill_brewer(palette = &quot;Set2&quot;) + 
+  labs(x = &quot;concentration in ppm&quot;)</code></pre>
+<p><img src="/post/2018-08-15-forensic-glass-i_files/figure-html/dat2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Pane1 and Pane2 are from <em>Manufacturer A</em> and Pane3 and Pane4 are from <em>Manufacturer B</em>. These two manufacturers, in the complete dataset, can be perfectly distinguished by only one measurement: that of K39, the ppm measurement of potassium in the glass. To distinquish between the panes, we can fit a random forest using the <code>R</code> package <a href="https://cran.r-project.org/web/packages/randomForest/randomForest.pdf"><code>randomForest</code></a>.</p>
+<pre class="r"><code>glass2.1 &lt;- glass2 %&gt;% spread(variable, value) %&gt;% dplyr::select(-Piece, -Rep, -mfr) %&gt;% mutate(row = row_number()) %&gt;% mutate_if(is.numeric, log)
+set.seed(345892)
+glass2.1test &lt;- glass2.1 %&gt;% sample_n(100)
+glass2.1train &lt;- glass2.1 %&gt;% filter(!(row %in% glass2.1test$row))
+rf1 &lt;- randomForest(as.factor(pane)~., data=glass2.1train[,-20], xtest = glass2.1test[,-c(1,20)], ytest = as.factor(glass2.1test$pane), importance=T, ntree=1000, keep.forest = T)
+rf1</code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = as.factor(pane) ~ ., data = glass2.1train[,      -20], xtest = glass2.1test[, -c(1, 20)], ytest = as.factor(glass2.1test$pane),      importance = T, ntree = 1000, keep.forest = T) 
+##                Type of random forest: classification
+##                      Number of trees: 1000
+## No. of variables tried at each split: 4
+## 
+##         OOB estimate of  error rate: 0.18%
+## Confusion matrix:
+##     P1  P2  P3  P4 class.error
+## P1 137   0   0   0 0.000000000
+## P2   0 136   0   0 0.000000000
+## P3   0   0 137   1 0.007246377
+## P4   0   0   0 149 0.000000000
+##                 Test set error rate: 0%
+## Confusion matrix:
+##    P1 P2 P3 P4 class.error
+## P1 28  0  0  0           0
+## P2  0 29  0  0           0
+## P3  0  0 27  0           0
+## P4  0  0  0 16           0</code></pre>
+<pre class="r"><code>glass2.1$pred1 &lt;- predict(rf1, glass2.1[,-c(1,20)])
+table(glass2.1$pred1, glass2.1$pane)</code></pre>
+<pre><code>##     
+##       P1  P2  P3  P4
+##   P1 165   0   0   0
+##   P2   0 165   0   0
+##   P3   0   0 165   0
+##   P4   0   0   0 165</code></pre>
+<pre class="r"><code>varImpPlot(rf1)</code></pre>
+<p><img src="/post/2018-08-15-forensic-glass-i_files/figure-html/rf-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Using a random forest, we are able to discriminate almost perfectly between the four panes. The function <code>randomForest::varImpPlot</code> shows the importance of each of the 18 elements in the data set. The two “most important” variables according to both metrics are Zr90 and Li7. The plot below shows the relationship between those two. We can see the groups are pretty well separated.</p>
+<pre class="r"><code>ggplot(data = glass2.1, aes(x=Zr90, y=Li7)) + 
+  geom_point(aes(color = pane)) +
+  scale_color_brewer(palette = &quot;Set2&quot;) + 
+  labs(x = &quot;log(Zr90) (ppm)&quot;, y = &quot;log(Li7) (ppm)&quot;)</code></pre>
+<p><img src="/post/2018-08-15-forensic-glass-i_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Next, we can build a random forest on only the two most important variables, to see where the regions of classification are and to see where the random forest fails. We only allow each tree in the forest to have 4 nodes to avoid overfitting.</p>
+<pre class="r"><code>glasstrain2 &lt;- glass2.1train[,c(&quot;pane&quot;,&quot;Zr90&quot;, &quot;Li7&quot;)]
+glasstest2 &lt;- glass2.1test[,c(&quot;pane&quot;,&quot;Zr90&quot;, &quot;Li7&quot;)]
+rf2 &lt;- randomForest(as.factor(pane) ~ ., data = glasstrain2, xtest = glasstest2[,-1], ytest = as.factor(glasstest2$pane), ntree=500, keep.forest = T, mtry = 2, maxnodes=4)
+rf2 </code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = as.factor(pane) ~ ., data = glasstrain2,      xtest = glasstest2[, -1], ytest = as.factor(glasstest2$pane),      ntree = 500, keep.forest = T, mtry = 2, maxnodes = 4) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 25.89%
+## Confusion matrix:
+##     P1 P2  P3  P4 class.error
+## P1 124 13   0   0  0.09489051
+## P2   6 27   0 103  0.80147059
+## P3   0  0 125  13  0.09420290
+## P4   0  0  10 139  0.06711409
+##                 Test set error rate: 28%
+## Confusion matrix:
+##    P1 P2 P3 P4 class.error
+## P1 28  0  0  0  0.00000000
+## P2  0  4  0 25  0.86206897
+## P3  0  0 25  2  0.07407407
+## P4  0  0  1 15  0.06250000</code></pre>
+<pre class="r"><code>zr90r &lt;- range(glass2.1$Zr90)
+Li7r &lt;- range(glass2.1$Li7)
+newdata &lt;- expand.grid(Zr90 = seq(zr90r[1],zr90r[2],length.out = 500),
+                       Li7 = seq(Li7r[1],Li7r[2],length.out = 500))
+newdata$pred2 &lt;- predict(rf2, newdata)
+
+ggplot() + 
+  geom_tile(data = newdata, aes(x = Zr90, y = Li7, fill = pred2), alpha = .4) + 
+  geom_point(data = glass2.1, aes(x = Zr90, y = Li7, color = pane)) +
+  scale_color_brewer(palette = &quot;Set2&quot;) + 
+  scale_fill_brewer(palette = &quot;Set2&quot;) +
+  labs(x = &quot;log(Zr90) (ppm)&quot;, y = &quot;log(Li7) (ppm)&quot;)</code></pre>
+<p><img src="/post/2018-08-15-forensic-glass-i_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>These analyses are informative about glass generally, for instance if we want to determine manufacturer of a window, but are less helpful when making forensic comparisons. In the practical forensic application, there is only one known pane and some fragments from an unknown source. The goal is to determine if the fragments come from the known pane, so a more generic “matching” approach is necessary. This approach will be covered in a future post.</p>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ol style="list-style-type: decimal">
+<li><p>Curran, James Michael, Tacha Natalie Hicks, and John S. Buckleton. 2000. Forensic Interpretation of Glass Evidence. CRC Press.</p></li>
+<li><p>R. Cook, Evett, I.W., Jackson, G., Jones, P.J., and Lambert, J.A. (1998) “A hierarchy of propositions: deciding which level to address in casework.” <em>Science and Justice.</em> 38:4 pp 231-239.</p></li>
+<li><p>ASTM International, <em>ASTM E2330-12 Standard Test Method for Determination of Concentrations of Elements in Glass Samples Using Inductively Coupled Plasma Mass Spectrometry (Icp-Ms) for Forensic Comparisons.</em> 2012. West Conshohocken, PA, ASTM International. doi: <a href="https://doi.org/10.1520/E2330-12" class="uri">https://doi.org/10.1520/E2330-12</a>.</p></li>
+<li><p>Weis, Peter, Marc Ducking, Peter Watzke, Sonja Menges, and Stefan Becker. 2011. “Establishing a Match Criterion in Forensic Comparison Analysis of Float Glass Using Laser Ablation Inductively Coupled Plasma Mass Spectrometry.” <em>Journal of Analytical Atomic Spectrometry.</em> 26 (6). The Royal Society of Chemistry: 1273–84. <a href="doi:10.1039/C0JA00168F" class="uri">doi:10.1039/C0JA00168F</a>.</p></li>
+<li><p>Venables, W. N. and Ripley, B. D. (2002) <em>Modern Applied Statistics with S.</em> Fourth edition. Springer.</p></li>
+<li><p>Newman, D.J. &amp; Hettich, S. &amp; Blake, C.L. &amp; Merz, C.J. (1998). UCI Repository of machine learning databases [<a href="http://www.ics.uci.edu/~mlearn/MLRepository.html" class="uri">http://www.ics.uci.edu/~mlearn/MLRepository.html</a>]. Irvine, CA: University of California, Department of Information and Computer Science.</p></li>
+<li><p>Friedrich Leisch &amp; Evgenia Dimitriadou (2010). mlbench: Machine Learning Benchmark Problems. R package version 2.1-1.</p></li>
+<li><p>Hadley Wickham (2017). tidyverse: Easily Install and Load the ‘Tidyverse’. R package version 1.2.1. <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a></p></li>
+<li><p>A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18–22.</p></li>
+</ol>
+</div>
