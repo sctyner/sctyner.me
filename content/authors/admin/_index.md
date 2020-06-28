@@ -30,7 +30,7 @@ role: AAAS Science & Technology Policy Fellow
 social:
 - icon: cv
   icon_pack: ai
-  link: https://sctyner.github.io/cv/
+  link: cv
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/sctyner
