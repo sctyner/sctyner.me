@@ -57,7 +57,7 @@ Hi, I'm Samantha Tyner. Most people call me Sam. I'm an applied statistician and
 
 Currently, I'm the inaugural 2019-20 AAAS Science & Technology Policy Fellow at the Bureau of Labor Statistics in the Office of Survey Methods Research. Previously, I was a postdoctoral research associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) at Iowa State University. I earned my Ph.D. in Statistics from [Iowa State](https://www.stat.iastate.edu/) in 2017 where I worked with [Heike Hofmann](https://github.com/heike). 
 
-**I'm also on the job hunt!** I am seeking a role in the government or non-profit space. I am passionate about:  
+**I'm also on the job hunt!** I am seeking a DC-based or 100% remote role in the government or non-profit space. I am passionate about:  
 - Using data science for social good
 - Data visualization
 - Communicating science & statistics to a general audience. Check out my blog posts and my [twitter account](https://twitter.com/sctyner/status/1144729288345825286?s=20) for examples!
