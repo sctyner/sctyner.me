@@ -14,7 +14,7 @@ links:
 - icon: desktop
   icon_pack: fas
   name: Slides
-  url: https://sctyner.github.io/talks/Conferences/user202/
+  url: https://sctyner.github.io/talks/Conferences/user2020/
 - icon: youtube
   icon_pack: fab
   name: Video
