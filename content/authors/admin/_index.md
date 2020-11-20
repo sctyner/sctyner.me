@@ -22,11 +22,11 @@ interests:
 - Forensic Science
 - Science for Policy
 organizations:
-- name: American Association for the Advancement of Science
-  url: "https://www.aaas.org/programs/science-technology-policy-fellowships"
-- name: U.S. Bureau of Labor Statistics, Office of Survey Methods Research 
-  url: "https://www.bls.gov/osmr/home.htm"
-role: AAAS Science & Technology Policy Fellow
+- name: Tritura
+  url: "https://www.trituraig.com/"
+- name: R-Ladies DC 
+  url: "https://www.meetup.com/rladies-dc/"
+role: Data Scientist
 social:
 - icon: cv
   icon_pack: ai
@@ -55,7 +55,7 @@ user_groups:
 
 Hi, I'm Samantha Tyner. Most people call me Sam. I'm an applied statistician and data scientist, with a wide range of skills and experiences. I became a statistician because **I want to use data to make a difference**. 
 
-Currently, I'm the inaugural 2019-20 AAAS Science & Technology Policy Fellow at the Bureau of Labor Statistics in the Office of Survey Methods Research. Previously, I was a postdoctoral research associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) at Iowa State University. I earned my Ph.D. in Statistics from [Iowa State](https://www.stat.iastate.edu/) in 2017 where I worked with [Heike Hofmann](https://github.com/heike). 
+Currently, I am a Data Scientist at [Tritura](https://www.trituraig.com/), and a co-organizer of R-Ladies DC. Previously, I was the inaugural 2019-20 [AAAS Science & Technology Policy Fellow](https://www.aaas.org/programs/science-technology-policy-fellowships) at the Bureau of Labor Statistics in the [Office of Survey Methods Research](https://www.bls.gov/osmr/home.htm). Before moving to the D.C. area in 2019, I was a postdoctoral research associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) at Iowa State University. I earned my Ph.D. in Statistics from [Iowa State](https://www.stat.iastate.edu/) in 2017 where I worked with [Heike Hofmann](https://github.com/heike). 
 
 I am passionate about:  
 - Data visualization
@@ -63,5 +63,5 @@ I am passionate about:
 - Using R and other open source software. See my projects on [GitHub](https://github.com/sctyner)
 - Using data science for social good
 - Building up inclusive R user & data science communities. 
-    * I am an active member of [R-Ladies DC](https://www.meetup.com/rladies-dc/), and the co-founder of [R-Ladies Ames](https://www.meetup.com/rladies-ames/)
-    * I am the co-creator of the [Uncoast Unconference](http://uuconf.rbind.io/), a community-building hackathon-style event for R users in middle America.
+    * Co-organizer of [R-Ladies DC](https://www.meetup.com/rladies-dc/), and the co-founder of [R-Ladies Ames](https://www.meetup.com/rladies-ames/)
+    * I am the co-creator of the [Uncoast Unconference](http://uuconf.rbind.io/), a community-building hackathon-style event for R users in middle America. Unfortunately, the 2020 Uncoast Unconf was cancelled because of the COVID-19 pandemic. We hope to hold the event in 2021 when travel is safe again. 
