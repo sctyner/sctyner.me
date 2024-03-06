@@ -22,11 +22,11 @@ interests:
 - Forensic Science
 - Science for Policy
 organizations:
-- name: Tritura
-  url: "https://www.trituraig.com/"
+- name: DLA Piper, LLP
+  url: "https://www.dlapiper.com/en-us/capabilities/industry/technology/artificial-intelligence-data-analytics"
 - name: R-Ladies DC 
   url: "https://www.meetup.com/rladies-dc/"
-role: Data Scientist
+role: Managing Director, Responsible AI
 social:
 - icon: cv
   icon_pack: ai
@@ -47,17 +47,18 @@ social:
   icon_pack: ai
   link: https://orcid.org/0000-0001-5484-2957
 superuser: true
-title: Sam Tyner
+title: Sam Tyner-Monroe, Ph.D. 
 user_groups:
 - Researchers
 - Visitors
 ---
 
-Hi, I'm Samantha Tyner. Most people call me Sam. I'm an applied statistician and data scientist, with a wide range of skills and experiences. I became a statistician because **I want to use data to make a difference**. 
+Hi, I'm Samantha Tyner-Monroe. Most people call me Sam. I'm an applied statistician and data scientist, with a wide range of skills and experiences. I became a statistician because **I want to use data to make a difference**. 
 
-Currently, I am a Data Scientist at [Tritura](https://www.trituraig.com/), and a co-organizer of R-Ladies DC. Previously, I was the inaugural 2019-20 [AAAS Science & Technology Policy Fellow](https://www.aaas.org/programs/science-technology-policy-fellowships) at the Bureau of Labor Statistics in the [Office of Survey Methods Research](https://www.bls.gov/osmr/home.htm). Before moving to the D.C. area in 2019, I was a postdoctoral research associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) at Iowa State University. I earned my Ph.D. in Statistics from [Iowa State](https://www.stat.iastate.edu/) in 2017 where I worked with [Heike Hofmann](https://github.com/heike). 
+Currently, I am Managing Director of Responsible AI at [DLA Piper](https://www.dlapiper.com/en-us), and a co-organizer of R-Ladies DC. Previously, I was a data scientist at [Tritura](https://trituraig.com/), and was the inaugural 2019-20 [AAAS Science & Technology Policy Fellow](https://www.aaas.org/programs/science-technology-policy-fellowships) at the Bureau of Labor Statistics in the [Office of Survey Methods Research](https://www.bls.gov/osmr/home.htm). Before moving to the D.C. area in 2019, I was a postdoctoral research associate in the [Center for Statistics and Applications in Forensic Evidence](https://forensicstats.org/) at Iowa State University. I earned my Ph.D. in Statistics from [Iowa State](https://www.stat.iastate.edu/) in 2017 where I worked with [Heike Hofmann](https://github.com/heike). 
 
 I am passionate about:  
+- Responsible AI
 - Data visualization
 - Communicating science & statistics to a general audience. Check out my blog posts and my [twitter account](https://twitter.com/sctyner/status/1144729288345825286?s=20) for examples!
 - Using R and other open source software. See my projects on [GitHub](https://github.com/sctyner)
